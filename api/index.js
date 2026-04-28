@@ -400,10 +400,10 @@ async function callAPI(system, user, webSearch) {
 // ─── テキストの曜日チェックをサーバーに依頼 ───
 async function getWeekdayContext(text) {
   try {
-    const res = await fetch('/api/weekday', {
+    const res = await fetch('/api', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ text })
+      body: JSON.stringify({ _action: 'weekday', text })
     });
     const data = await res.json();
     return data.context || '';
@@ -555,7 +555,7 @@ async function checkUrls() {
   setLoading('btn-url', true, '実アクセスで確認する');
   document.getElementById('result-url').innerHTML = '';
   try {
-    const res = await fetch('/api/urlcheck', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({urls:urlList}) });
+    const res = await fetch('/api', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({_action:'urlcheck', urls:urlList}) });
     const results = await res.json();
     const errs = results.filter(r=>r.status==='error').length;
     const warns = results.filter(r=>r.status==='warn').length;
@@ -612,34 +612,32 @@ function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').re
 // ─── メインハンドラー ────────────────────────────────────────
 export default async function handler(req, res) {
 
-  // GET → HTML
+  // GET → 今日の日付を埋め込んだHTMLを返す
   if (req.method === 'GET') {
-    const url = new URL(req.url, `https://${req.headers.host}`);
-
-    // /api/today → 今日の日付をサーバーから返す
-    if (url.pathname === '/api/today') {
-      const today = getTodayStr();
-      res.setHeader('Content-Type', 'application/json');
-      return res.status(200).json({ today });
-    }
-
+    const today = getTodayStr();
+    // HTMLの「読み込み中...」と「initToday()」をサーバー生成の日付に置き換えて返す
+    const html = HTML
+      .replace('読み込み中...', today)
+      .replace('let todayStr = \'\';', `let todayStr = '${today}';`)
+      .replace('initToday();', '// initToday disabled - date injected server-side');
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    return res.status(200).send(HTML);
+    return res.status(200).send(html);
   }
 
   if (req.method === 'POST') {
-    const url = new URL(req.url, `https://${req.headers.host}`);
+    // bodyの_actionフィールドでルーティング（Vercelでreq.urlのパスが取れない場合の対策）
+    const action = req.body?._action;
 
-    // /api/weekday → テキスト内の日付を事前計算して返す
-    if (url.pathname === '/api/weekday') {
+    // weekday → テキスト内の日付を事前計算して返す
+    if (action === 'weekday') {
       const { text } = req.body;
       const context = buildWeekdayContext(text || '');
       res.setHeader('Content-Type', 'application/json');
       return res.status(200).json({ context });
     }
 
-    // /api/urlcheck → URLの実アクセスチェック
-    if (url.pathname === '/api/urlcheck') {
+    // urlcheck → URLの実アクセスチェック
+    if (action === 'urlcheck') {
       const { urls } = req.body;
       if (!Array.isArray(urls)) return res.status(400).json({ error: 'urls required' });
       const results = await Promise.all(urls.map(async (u) => {
@@ -665,14 +663,15 @@ export default async function handler(req, res) {
       return res.status(200).json(results);
     }
 
-    // /api → Anthropic API転送
+    // Anthropic API転送（_actionキーを除いて送信）
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) return res.status(500).json({ error: 'ANTHROPIC_API_KEY が未設定です' });
     try {
+      const { _action, ...body } = req.body;
       const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'Content-Type':'application/json', 'x-api-key':apiKey, 'anthropic-version':'2023-06-01', 'anthropic-beta':'web-search-2025-03-05' },
-        body: JSON.stringify(req.body)
+        body: JSON.stringify(body)
       });
       const data = await response.json();
       return res.status(response.status).json(data);
