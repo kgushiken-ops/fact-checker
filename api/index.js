@@ -594,7 +594,7 @@ JSON形式のみ：
   loading('btn-data',false,lbl);
 }
 // ════ チェックリスト ════
-const CL_DATA = [
+var CL_DATA = [
   { group:'📅 日付・曜日', items:['試合日の曜日が正しい（例：5月2日（土））','発売日・受注日の曜日が正しい','受注終了日の曜日が正しい','年度が正しい（2024・2025年になっていない）'] },
   { group:'💰 価格・数値', items:['全ての価格に「（税込）」の記載がある','価格の数値が正しい','商品種類数の内訳合計が一致している（例：33+3=36）','サイズ表の数値に矛盾がない','割合・パーセントの合計が100%になっている'] },
   { group:'📝 テキスト・表記', items:['選手名の漢字・表記が正しい','選手の背番号が正しい','対戦相手チーム名が正しい','商品名・グッズ名の表記が正しい','誇張表現・断定表現がない','注意書き・免責事項の記載がある'] },
@@ -602,103 +602,144 @@ const CL_DATA = [
   { group:'🗓️ 販売情報', items:['販売開始日時が正しい','受注終了日時が正しい','販売店舗の記載が正しい','営業時間の記載が正しい','WEB SHOP限定・会場限定の区別が明記されている','数量限定の場合その旨が記載されている'] },
   { group:'🔍 最終確認', items:['ステージング環境で表示を確認した','画像が正しく表示されている','スマートフォンでの表示を確認した','担当者・上長の確認を得た'] }
 ];
-let clState = {};
+var clState = {};
 function clKey(){return 'fc_cl_'+new Date().toDateString();}
-function loadCl(){try{clState=JSON.parse(localStorage.getItem(clKey())||'{}');}catch{clState={};}}
-function saveCl(){try{localStorage.setItem(clKey(),JSON.stringify(clState));}catch{}}
+function loadCl(){try{clState=JSON.parse(localStorage.getItem(clKey())||'{}');}catch(e){clState={};}}
+function saveCl(){try{localStorage.setItem(clKey(),JSON.stringify(clState));}catch(e){}}
 function clEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
 function renderCl(){
-  loadCl(); var total=0,done=0;
-  var html=CL_DATA.map(function(g,gi){
-    var items=g.items.map(function(item,ii){
-      var key=gi+'_'+ii; var chk=!!clState[key]; total++; if(chk)done++;
-      var bg=chk?'#e8f5ec':'#fff';
-      var bd=chk?'#b6dfc3':'#e8e4da';
-      var cbBg=chk?'#2d6e3e':'transparent';
-      var cbBd=chk?'#2d6e3e':'#e8e4da';
-      var tc=chk?'#6b6860':'#3a3830';
-      var td=chk?'text-decoration:line-through;':'';
-      return '<div onclick="toggleCl(\''+key+'\')" style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:6px;border:1px solid '+bd+';cursor:pointer;margin-bottom:4px;background:'+bg+';user-select:none;">'
-        +'<div style="width:16px;height:16px;border-radius:4px;border:1.5px solid '+cbBd+';flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;font-size:11px;font-weight:700;background:'+cbBg+';color:#fff;">'+(chk?'✓':'')+'</div>'
-        +'<div style="font-size:13px;color:'+tc+';line-height:1.4;'+td+'">'+clEsc(item)+'</div>'
-        +'</div>';
-    }).join('');
-    return '<div style="margin-bottom:14px;"><div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a8a59f;margin-bottom:6px;">'+clEsc(g.group)+'</div>'+items+'</div>';
-  }).join('');
-  document.getElementById('cl-groups').innerHTML=html;
-  var pct=total?Math.round(done/total*100):0;
-  document.getElementById('cl-prog-fill').style.width=pct+'%';
-  document.getElementById('cl-prog-txt').textContent=done+' / '+total+' 完了 ('+pct+'%)';
-  var st=document.getElementById('cl-status');
-  if(done===total){st.textContent='✅ すべてのチェック完了！';st.style.color='#2d6e3e';}
-  else{st.textContent='未完了の項目があります';st.style.color='#a8a59f';}
+  loadCl();
+  var total=0, done=0;
+  var html = '';
+  for(var gi=0; gi<CL_DATA.length; gi++){
+    var g = CL_DATA[gi];
+    var itemsHtml = '';
+    for(var ii=0; ii<g.items.length; ii++){
+      var key = gi+'_'+ii;
+      var chk = !!clState[key];
+      total++; if(chk) done++;
+      var bg   = chk ? '#e8f5ec' : '#fff';
+      var bd   = chk ? '#b6dfc3' : '#e8e4da';
+      var cbBg = chk ? '#2d6e3e' : 'transparent';
+      var cbBd = chk ? '#2d6e3e' : '#e8e4da';
+      var tc   = chk ? '#6b6860' : '#3a3830';
+      var td   = chk ? 'text-decoration:line-through;' : '';
+      var cbTxt = chk ? '&#10003;' : '';
+      itemsHtml += '<div data-clkey="' + key + '" style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:6px;border:1px solid ' + bd + ';cursor:pointer;margin-bottom:4px;background:' + bg + ';user-select:none;">'
+        + '<div style="width:16px;height:16px;border-radius:4px;border:1.5px solid ' + cbBd + ';flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;font-size:11px;font-weight:700;background:' + cbBg + ';color:#fff;">' + cbTxt + '</div>'
+        + '<div style="font-size:13px;color:' + tc + ';line-height:1.4;' + td + '">' + clEsc(g.items[ii]) + '</div>'
+        + '</div>';
+    }
+    html += '<div style="margin-bottom:14px;">'
+      + '<div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a8a59f;margin-bottom:6px;">' + clEsc(g.group) + '</div>'
+      + itemsHtml + '</div>';
+  }
+  var el = document.getElementById('cl-groups');
+  if(!el) return;
+  el.innerHTML = html;
+  // data属性でイベント委譲
+  el.onclick = function(e){
+    var row = e.target.closest('[data-clkey]');
+    if(row){ toggleCl(row.getAttribute('data-clkey')); }
+  };
+  var pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('cl-prog-fill').style.width = pct + '%';
+  document.getElementById('cl-prog-txt').textContent = done + ' / ' + total + ' 完了 (' + pct + '%)';
+  var st = document.getElementById('cl-status');
+  if(done === total){ st.textContent = '✅ すべてのチェック完了！'; st.style.color = '#2d6e3e'; }
+  else{ st.textContent = '未完了の項目があります'; st.style.color = '#a8a59f'; }
 }
-function toggleCl(key){loadCl();clState[key]=!clState[key];saveCl();renderCl();}
-function resetCl(){if(!confirm('チェックリストをリセットしますか？'))return;clState={};saveCl();renderCl();}
+function toggleCl(key){ loadCl(); clState[key]=!clState[key]; saveCl(); renderCl(); }
+function resetCl(){ if(!confirm('チェックリストをリセットしますか？')) return; clState={}; saveCl(); renderCl(); }
 renderCl();
 
 // ════ PDF出力 ════
-var PDFCSS='body{font-family:sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:800px;margin:0 auto;font-size:13px;line-height:1.6;}'
-  +'h1{font-size:20px;font-weight:700;margin-bottom:4px;}.meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}'
-  +'.sum-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid #e8e4da;border-radius:8px;margin-bottom:12px;background:#f2efe8;flex-wrap:wrap;}'
-  +'.verdict{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;}'
-  +'.v-ok{background:#e8f5ec;color:#2d6e3e;border:1px solid #b6dfc3;}.v-warn{background:#fdf3e3;color:#8a5a00;border:1px solid #f0cc88;}.v-err{background:#fdecea;color:#a32020;border:1px solid #f0aaaa;}'
-  +'.sum-txt{flex:1;font-size:13px;color:#3a3830;}.counts{display:flex;gap:5px;}'
-  +'.cp{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;}.cp-e{background:#fdecea;color:#a32020;}.cp-w{background:#fdf3e3;color:#8a5a00;}.cp-o{background:#e8f5ec;color:#2d6e3e;}'
-  +'.issues{display:flex;flex-direction:column;gap:6px;}'
-  +'.icard{border:1px solid #e8e4da;border-radius:10px;overflow:hidden;page-break-inside:avoid;}'
-  +'.icard.e{border-left:3px solid #a32020;}.icard.w{border-left:3px solid #8a5a00;}.icard.o{border-left:3px solid #2d6e3e;}'
-  +'.ihead{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#faf8f4;}'
-  +'.ico{font-size:13px;}.ilbl{font-size:13px;font-weight:500;flex:1;}.itag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;}.arr{display:none!important;}'
-  +'.t-e{background:#fdecea;color:#a32020;}.t-w{background:#fdf3e3;color:#8a5a00;}.t-o{background:#e8f5ec;color:#2d6e3e;}'
-  +'.ibody{display:block!important;padding:10px 14px;background:#f9f7f3;border-top:1px solid #e8e4da;}'
-  +'.dlbl{font-size:9px;font-weight:700;color:#a8a59f;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;margin-top:8px;}'
-  +'.dlbl:first-child{margin-top:0;}'
-  +'.dcode{font-size:11px;background:#0f0e0c;color:#e8e4da;border-radius:5px;padding:6px 10px;line-height:1.7;white-space:pre-wrap;}'
-  +'.dsug{font-size:12px;font-weight:500;padding:6px 10px;border-radius:5px;margin-bottom:6px;}'
-  +'.dsug-e{background:#fdecea;color:#a32020;}.dsug-o{background:#e8f5ec;color:#2d6e3e;}'
-  +'.diff{border:1px solid #e8e4da;border-radius:8px;overflow:hidden;margin:6px 0;}'
-  +'.diff-hd{display:flex;border-bottom:1px solid #e8e4da;}'
-  +'.dh{flex:1;padding:5px 10px;font-size:9px;font-weight:700;text-transform:uppercase;}'
-  +'.dh.del{color:#a32020;background:#fff5f5;}.dh.add{color:#2d6e3e;background:#f4fff6;}'
-  +'.diff-bd{display:flex;}.dc{flex:1;padding:8px 10px;font-size:12px;line-height:1.7;}'
-  +'.dc.del{background:#fffafa;border-right:1px solid #e8e4da;}.dc.add{background:#f6fff8;}'
-  +'mark.del{background:rgba(163,32,32,.15);color:#a32020;text-decoration:line-through;}'
-  +'mark.add{background:rgba(45,110,62,.18);color:#2d6e3e;font-weight:600;}'
-  +'.refs{margin-top:6px;}.refs-lbl{font-size:9px;font-weight:700;color:#a8a59f;text-transform:uppercase;margin-bottom:3px;}'
-  +'.ref{display:inline-block;font-size:11px;color:#1a4fa0;background:#e8f0fb;border:1px solid #c8dcf8;border-radius:4px;padding:2px 8px;margin:0 3px 3px 0;text-decoration:none;}'
-  +'.ui{border:1px solid #e8e4da;border-radius:8px;padding:10px 12px;margin-bottom:6px;}'
-  +'@media print{body{padding:1rem;}@page{margin:1.5cm;}}';
+var PDFCSS = [
+  'body{font-family:sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:800px;margin:0 auto;font-size:13px;line-height:1.6;}',
+  'h1{font-size:20px;font-weight:700;margin-bottom:4px;}',
+  '.meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}',
+  '.sum-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid #e8e4da;border-radius:8px;margin-bottom:12px;background:#f2efe8;flex-wrap:wrap;}',
+  '.verdict{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;}',
+  '.v-ok{background:#e8f5ec;color:#2d6e3e;border:1px solid #b6dfc3;}',
+  '.v-warn{background:#fdf3e3;color:#8a5a00;border:1px solid #f0cc88;}',
+  '.v-err{background:#fdecea;color:#a32020;border:1px solid #f0aaaa;}',
+  '.sum-txt{flex:1;font-size:13px;color:#3a3830;}.counts{display:flex;gap:5px;}',
+  '.cp{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;}',
+  '.cp-e{background:#fdecea;color:#a32020;}.cp-w{background:#fdf3e3;color:#8a5a00;}.cp-o{background:#e8f5ec;color:#2d6e3e;}',
+  '.issues{display:flex;flex-direction:column;gap:6px;}',
+  '.icard{border:1px solid #e8e4da;border-radius:10px;overflow:hidden;page-break-inside:avoid;}',
+  '.icard.e{border-left:3px solid #a32020;}.icard.w{border-left:3px solid #8a5a00;}.icard.o{border-left:3px solid #2d6e3e;}',
+  '.ihead{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#faf8f4;}',
+  '.ico{font-size:13px;}.ilbl{font-size:13px;font-weight:500;flex:1;}',
+  '.itag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;}.arr{display:none!important;}',
+  '.t-e{background:#fdecea;color:#a32020;}.t-w{background:#fdf3e3;color:#8a5a00;}.t-o{background:#e8f5ec;color:#2d6e3e;}',
+  '.ibody{display:block!important;padding:10px 14px;background:#f9f7f3;border-top:1px solid #e8e4da;}',
+  '.dlbl{font-size:9px;font-weight:700;color:#a8a59f;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;margin-top:8px;}',
+  '.dlbl:first-child{margin-top:0;}',
+  '.dcode{font-size:11px;background:#0f0e0c;color:#e8e4da;border-radius:5px;padding:6px 10px;line-height:1.7;white-space:pre-wrap;}',
+  '.dsug{font-size:12px;font-weight:500;padding:6px 10px;border-radius:5px;margin-bottom:6px;}',
+  '.dsug-e{background:#fdecea;color:#a32020;}.dsug-o{background:#e8f5ec;color:#2d6e3e;}',
+  '.diff{border:1px solid #e8e4da;border-radius:8px;overflow:hidden;margin:6px 0;}',
+  '.diff-hd{display:flex;border-bottom:1px solid #e8e4da;}',
+  '.dh{flex:1;padding:5px 10px;font-size:9px;font-weight:700;text-transform:uppercase;}',
+  '.dh.del{color:#a32020;background:#fff5f5;}.dh.add{color:#2d6e3e;background:#f4fff6;}',
+  '.diff-bd{display:flex;}.dc{flex:1;padding:8px 10px;font-size:12px;line-height:1.7;}',
+  '.dc.del{background:#fffafa;border-right:1px solid #e8e4da;}.dc.add{background:#f6fff8;}',
+  'mark.del{background:rgba(163,32,32,.15);color:#a32020;text-decoration:line-through;}',
+  'mark.add{background:rgba(45,110,62,.18);color:#2d6e3e;font-weight:600;}',
+  '.refs{margin-top:6px;}.refs-lbl{font-size:9px;font-weight:700;color:#a8a59f;text-transform:uppercase;margin-bottom:3px;}',
+  '.ref{display:inline-block;font-size:11px;color:#1a4fa0;background:#e8f0fb;border:1px solid #c8dcf8;border-radius:4px;padding:2px 8px;margin:0 3px 3px 0;text-decoration:none;}',
+  '.ui{border:1px solid #e8e4da;border-radius:8px;padding:10px 12px;margin-bottom:6px;}',
+  '@media print{body{padding:1rem;}@page{margin:1.5cm;}}'
+].join('');
 
 function exportPdf(resultId, title){
-  var el=document.getElementById(resultId);
-  if(!el||!el.innerHTML.trim())return;
-  el.querySelectorAll('.icard').forEach(function(c){c.classList.add('open');});
-  var w=window.open('','_blank');
-  w.document.write('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>'+title+'</title><style>'+PDFCSS+'</style></head><body><h1>📋 '+title+' レポート</h1><div class="meta">FactCheck 横浜F・マリノス運用チーム | 実施日：'+TODAY+'</div>'+el.innerHTML+'</body></html>');
+  var el = document.getElementById(resultId);
+  if(!el || !el.innerHTML.trim()) return;
+  el.querySelectorAll('.icard').forEach(function(c){ c.classList.add('open'); });
+  var w = window.open('', '_blank');
+  var html = '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>' + title + '</title>'
+    + '<style>' + PDFCSS + '</style></head><body>'
+    + '<h1>📋 ' + title + ' レポート</h1>'
+    + '<div class="meta">FactCheck 横浜F・マリノス運用チーム | 実施日：' + TODAY + '</div>'
+    + el.innerHTML + '</body></html>';
+  w.document.write(html);
   w.document.close();
-  setTimeout(function(){w.print();},800);
+  setTimeout(function(){ w.print(); }, 800);
 }
 
 function exportClPdf(){
-  loadCl(); var total=0,done=0;
-  var gHtml=CL_DATA.map(function(g,gi){
-    var items=g.items.map(function(item,ii){
-      var key=gi+'_'+ii; var chk=!!clState[key]; total++; if(chk)done++;
-      return '<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:1px solid '+(chk?'#b6dfc3':'#e8e4da')+';border-radius:6px;margin-bottom:4px;background:'+(chk?'#e8f5ec':'#fff')+';">'
-        +'<div style="width:16px;height:16px;border-radius:4px;border:1.5px solid '+(chk?'#2d6e3e':'#e8e4da')+';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:'+(chk?'#2d6e3e':'transparent')+';color:#fff;">'+(chk?'✓':'')+'</div>'
-        +'<div style="font-size:13px;color:'+(chk?'#6b6860':'#3a3830')+';'+(chk?'text-decoration:line-through;':'')+'">'+clEsc(item)+'</div>'
-        +'</div>';
-    }).join('');
-    return '<div style="margin-bottom:16px;page-break-inside:avoid;"><div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a8a59f;margin-bottom:6px;">'+clEsc(g.group)+'</div>'+items+'</div>';
-  }).join('');
-  var CSS='body{font-family:sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:700px;margin:0 auto;}'
-    +'h1{font-size:20px;font-weight:700;margin-bottom:4px;}.meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}'
-    +'@media print{body{padding:1rem;}@page{margin:1.5cm;}}';
-  var w=window.open('','_blank');
-  w.document.write('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>公開前チェックリスト</title><style>'+CSS+'</style></head><body><h1>✅ 公開前チェックリスト</h1><div class="meta">FactCheck 横浜F・マリノス運用チーム | 実施日：'+TODAY+' | 完了：'+done+'/'+total+'</div>'+gHtml+'</body></html>');
+  loadCl();
+  var total=0, done=0, gHtml='';
+  for(var gi=0; gi<CL_DATA.length; gi++){
+    var g = CL_DATA[gi];
+    var itemsHtml = '';
+    for(var ii=0; ii<g.items.length; ii++){
+      var key = gi+'_'+ii;
+      var chk = !!clState[key]; total++; if(chk) done++;
+      itemsHtml += '<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:1px solid '+(chk?'#b6dfc3':'#e8e4da')+';border-radius:6px;margin-bottom:4px;background:'+(chk?'#e8f5ec':'#fff')+'">'
+        + '<div style="width:16px;height:16px;border-radius:4px;border:1.5px solid '+(chk?'#2d6e3e':'#e8e4da')+';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:'+(chk?'#2d6e3e':'transparent')+';color:#fff;">'+(chk?'&#10003;':'')+'</div>'
+        + '<div style="font-size:13px;color:'+(chk?'#6b6860':'#3a3830')+';'+(chk?'text-decoration:line-through;':'')+'">'+clEsc(g.items[ii])+'</div>'
+        + '</div>';
+    }
+    gHtml += '<div style="margin-bottom:16px;page-break-inside:avoid;">'
+      + '<div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a8a59f;margin-bottom:6px;">' + clEsc(g.group) + '</div>'
+      + itemsHtml + '</div>';
+  }
+  var CSS = 'body{font-family:sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:700px;margin:0 auto;}'
+    + 'h1{font-size:20px;font-weight:700;margin-bottom:4px;}'
+    + '.meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}'
+    + '@media print{body{padding:1rem;}@page{margin:1.5cm;}}';
+  var w = window.open('', '_blank');
+  var html = '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>公開前チェックリスト</title>'
+    + '<style>' + CSS + '</style></head><body>'
+    + '<h1>✅ 公開前チェックリスト</h1>'
+    + '<div class="meta">FactCheck 横浜F・マリノス運用チーム | 実施日：' + TODAY + ' | 完了：' + done + '/' + total + '</div>'
+    + gHtml + '</body></html>';
+  w.document.write(html);
   w.document.close();
-  setTimeout(function(){w.print();},800);
+  setTimeout(function(){ w.print(); }, 800);
 }
 
 </script>
