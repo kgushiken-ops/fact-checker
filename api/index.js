@@ -290,7 +290,7 @@ footer{text-align:center;padding:1.5rem;font-size:11px;color:var(--ink4);border-
     </div>
     <button class="btn-check" id="btn-text" onclick="chkText()">AIでチェックする（根拠＋参照リンク付き）</button>
     <div class="result" id="r-text"></div>
-    <div id="pdf-text-bar" style="display:none;justify-content:flex-end;margin-top:10px;"><button onclick="exportPdf('r-text','テキスト事実確認')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;border:1.5px solid #e8e4da;background:#fff;color:#6b6860;font-size:12px;font-weight:500;cursor:pointer;font-family:Noto Sans JP,sans-serif;">📄 PDFで出力する</button></div>
+    <div id="pdf-text-bar" style="display:none;justify-content:flex-end;margin-top:10px;"><button onclick="exportPdf('r-text','テキスト事実確認')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;border:1.5px solid #e8e4da;background:#fff;color:#6b6860;font-size:12px;font-weight:500;cursor:pointer;">📄 PDFで出力する</button></div>
   </div>
 
   <div class="panel" id="p-url">
@@ -305,7 +305,7 @@ footer{text-align:center;padding:1.5rem;font-size:11px;color:var(--ink4);border-
     </div>
     <button class="btn-check" id="btn-url" onclick="chkUrl()">実アクセスで確認する</button>
     <div class="result" id="r-url"></div>
-    <div id="pdf-url-bar" style="display:none;justify-content:flex-end;margin-top:10px;"><button onclick="exportPdf('r-url','URLリンク切れチェック')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;border:1.5px solid #e8e4da;background:#fff;color:#6b6860;font-size:12px;font-weight:500;cursor:pointer;font-family:Noto Sans JP,sans-serif;">📄 PDFで出力する</button></div>
+    <div id="pdf-url-bar" style="display:none;justify-content:flex-end;margin-top:10px;"><button onclick="exportPdf('r-url','URLリンク切れチェック')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;border:1.5px solid #e8e4da;background:#fff;color:#6b6860;font-size:12px;font-weight:500;cursor:pointer;">📄 PDFで出力する</button></div>
   </div>
 
   <div class="panel" id="p-data">
@@ -319,7 +319,7 @@ footer{text-align:center;padding:1.5rem;font-size:11px;color:var(--ink4);border-
     </div>
     <button class="btn-check" id="btn-data" onclick="chkData()">AIで整合性チェック（根拠＋参照リンク付き）</button>
     <div class="result" id="r-data"></div>
-    <div id="pdf-data-bar" style="display:none;justify-content:flex-end;margin-top:10px;"><button onclick="exportPdf('r-data','数値・データ整合性チェック')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;border:1.5px solid #e8e4da;background:#fff;color:#6b6860;font-size:12px;font-weight:500;cursor:pointer;font-family:Noto Sans JP,sans-serif;">📄 PDFで出力する</button></div>
+    <div id="pdf-data-bar" style="display:none;justify-content:flex-end;margin-top:10px;"><button onclick="exportPdf('r-data','数値・データ整合性チェック')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;border:1.5px solid #e8e4da;background:#fff;color:#6b6860;font-size:12px;font-weight:500;cursor:pointer;">📄 PDFで出力する</button></div>
   </div>
 
   <div class="panel" id="p-cl">
@@ -333,9 +333,9 @@ footer{text-align:center;padding:1.5rem;font-size:11px;color:var(--ink4);border-
       </div>
       <div id="cl-groups"></div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid #e8e4da;gap:8px;flex-wrap:wrap;">
-        <button onclick="resetCl()" style="background:none;border:1px solid #e8e4da;border-radius:6px;padding:5px 12px;font-size:12px;color:#a8a59f;cursor:pointer;font-family:Noto Sans JP,sans-serif;">リセット</button>
+        <button onclick="resetCl()" style="background:none;border:1px solid #e8e4da;border-radius:6px;padding:5px 12px;font-size:12px;color:#a8a59f;cursor:pointer;">リセット</button>
         <div id="cl-status" style="font-size:12px;font-weight:700;flex:1;text-align:center;color:#a8a59f;">未完了の項目があります</div>
-        <button onclick="exportClPdf()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;border:1.5px solid #e8e4da;background:#fff;color:#6b6860;font-size:12px;font-weight:500;cursor:pointer;font-family:Noto Sans JP,sans-serif;">📄 PDFで出力</button>
+        <button onclick="exportClPdf()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;border:1.5px solid #e8e4da;background:#fff;color:#6b6860;font-size:12px;font-weight:500;cursor:pointer;">📄 PDFで出力</button>
       </div>
     </div>
   </div>
@@ -554,7 +554,6 @@ async function chkUrl() {
       </div>\`;
     }).join('');
     document.getElementById('r-url').innerHTML = b + \`<div class="issues">\${items}</div>\`;
-    document.getElementById('pdf-url-bar').style.display='flex';
   } catch(e) {
     document.getElementById('r-url').innerHTML = \`<div style="padding:14px;background:#fff;border:1px solid var(--paper3);border-radius:var(--rlg);color:var(--err);font-size:14px;">エラー：\${x(e.message)}</div>\`;
   }
@@ -594,7 +593,6 @@ JSON形式のみ：
   }
   loading('btn-data',false,lbl);
 }
-
 // ════ チェックリスト ════
 const CL_DATA = [
   { group:'📅 日付・曜日', items:['試合日の曜日が正しい（例：5月2日（土））','発売日・受注日の曜日が正しい','受注終了日の曜日が正しい','年度が正しい（2024・2025年になっていない）'] },
@@ -610,21 +608,28 @@ function loadCl(){try{clState=JSON.parse(localStorage.getItem(clKey())||'{}');}c
 function saveCl(){try{localStorage.setItem(clKey(),JSON.stringify(clState));}catch{}}
 function clEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function renderCl(){
-  loadCl(); let total=0,done=0;
-  const html=CL_DATA.map(function(g,gi){
-    const items=g.items.map(function(item,ii){
-      const key=gi+'_'+ii; const chk=!!clState[key]; total++; if(chk)done++;
-      return '<div onclick="toggleCl(\''+key+'\')" style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:6px;border:1px solid '+(chk?'#b6dfc3':'#e8e4da')+';cursor:pointer;margin-bottom:4px;background:'+(chk?'#e8f5ec':'#fff')+';user-select:none;">'
-        +'<div style="width:16px;height:16px;border-radius:4px;border:1.5px solid '+(chk?'#2d6e3e':'#e8e4da')+';flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;font-size:11px;font-weight:700;background:'+(chk?'#2d6e3e':'transparent')+';color:#fff;">'+(chk?'✓':'')+'</div>'
-        +'<div style="font-size:13px;color:'+(chk?'#6b6860':'#3a3830')+';line-height:1.4;'+(chk?'text-decoration:line-through;':'')+'">'+clEsc(item)+'</div></div>';
+  loadCl(); var total=0,done=0;
+  var html=CL_DATA.map(function(g,gi){
+    var items=g.items.map(function(item,ii){
+      var key=gi+'_'+ii; var chk=!!clState[key]; total++; if(chk)done++;
+      var bg=chk?'#e8f5ec':'#fff';
+      var bd=chk?'#b6dfc3':'#e8e4da';
+      var cbBg=chk?'#2d6e3e':'transparent';
+      var cbBd=chk?'#2d6e3e':'#e8e4da';
+      var tc=chk?'#6b6860':'#3a3830';
+      var td=chk?'text-decoration:line-through;':'';
+      return '<div onclick="toggleCl(\''+key+'\')" style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:6px;border:1px solid '+bd+';cursor:pointer;margin-bottom:4px;background:'+bg+';user-select:none;">'
+        +'<div style="width:16px;height:16px;border-radius:4px;border:1.5px solid '+cbBd+';flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;font-size:11px;font-weight:700;background:'+cbBg+';color:#fff;">'+(chk?'✓':'')+'</div>'
+        +'<div style="font-size:13px;color:'+tc+';line-height:1.4;'+td+'">'+clEsc(item)+'</div>'
+        +'</div>';
     }).join('');
     return '<div style="margin-bottom:14px;"><div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a8a59f;margin-bottom:6px;">'+clEsc(g.group)+'</div>'+items+'</div>';
   }).join('');
   document.getElementById('cl-groups').innerHTML=html;
-  const pct=total?Math.round(done/total*100):0;
+  var pct=total?Math.round(done/total*100):0;
   document.getElementById('cl-prog-fill').style.width=pct+'%';
   document.getElementById('cl-prog-txt').textContent=done+' / '+total+' 完了 ('+pct+'%)';
-  const st=document.getElementById('cl-status');
+  var st=document.getElementById('cl-status');
   if(done===total){st.textContent='✅ すべてのチェック完了！';st.style.color='#2d6e3e';}
   else{st.textContent='未完了の項目があります';st.style.color='#a8a59f';}
 }
@@ -633,36 +638,69 @@ function resetCl(){if(!confirm('チェックリストをリセットしますか
 renderCl();
 
 // ════ PDF出力 ════
-const PDF_GF='<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">';
-const PDF_CSS='body{font-family:"Noto Sans JP",sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:800px;margin:0 auto;font-size:13px;line-height:1.6;}h1{font-size:20px;font-weight:700;margin-bottom:4px;}.meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}.sum-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid #e8e4da;border-radius:8px;margin-bottom:12px;background:#f2efe8;flex-wrap:wrap;}.verdict{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;}.v-ok{background:#e8f5ec;color:#2d6e3e;border:1px solid #b6dfc3;}.v-warn{background:#fdf3e3;color:#8a5a00;border:1px solid #f0cc88;}.v-err{background:#fdecea;color:#a32020;border:1px solid #f0aaaa;}.sum-txt{flex:1;font-size:13px;color:#3a3830;}.counts{display:flex;gap:5px;}.cp{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;}.cp-e{background:#fdecea;color:#a32020;}.cp-w{background:#fdf3e3;color:#8a5a00;}.cp-o{background:#e8f5ec;color:#2d6e3e;}.issues{display:flex;flex-direction:column;gap:6px;}.icard{border:1px solid #e8e4da;border-radius:10px;overflow:hidden;page-break-inside:avoid;}.icard.e{border-left:3px solid #a32020;}.icard.w{border-left:3px solid #8a5a00;}.icard.o{border-left:3px solid #2d6e3e;}.ihead{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#faf8f4;}.ico{font-size:13px;}.ilbl{font-size:13px;font-weight:500;flex:1;}.itag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;}.arr{display:none!important;}.t-e{background:#fdecea;color:#a32020;}.t-w{background:#fdf3e3;color:#8a5a00;}.t-o{background:#e8f5ec;color:#2d6e3e;}.ibody{display:block!important;padding:10px 14px;background:#f9f7f3;border-top:1px solid #e8e4da;}.dlbl{font-size:9px;font-weight:700;color:#a8a59f;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;margin-top:8px;}.dlbl:first-child{margin-top:0;}.dcode{font-family:"JetBrains Mono",monospace;font-size:11px;background:#0f0e0c;color:#e8e4da;border-radius:5px;padding:6px 10px;line-height:1.7;white-space:pre-wrap;}.dsug{font-size:12px;font-weight:500;padding:6px 10px;border-radius:5px;margin-bottom:6px;}.dsug-e{background:#fdecea;color:#a32020;}.dsug-o{background:#e8f5ec;color:#2d6e3e;}.diff{border:1px solid #e8e4da;border-radius:8px;overflow:hidden;margin:6px 0;}.diff-hd{display:flex;border-bottom:1px solid #e8e4da;}.dh{flex:1;padding:5px 10px;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}.dh.del{color:#a32020;background:#fff5f5;}.dh.add{color:#2d6e3e;background:#f4fff6;}.diff-bd{display:flex;}.dc{flex:1;padding:8px 10px;font-size:12px;line-height:1.7;}.dc.del{background:#fffafa;border-right:1px solid #e8e4da;}.dc.add{background:#f6fff8;}mark.del{background:rgba(163,32,32,.15);color:#a32020;border-radius:2px;padding:0 2px;text-decoration:line-through;}mark.add{background:rgba(45,110,62,.18);color:#2d6e3e;border-radius:2px;padding:0 2px;font-weight:600;}.refs{margin-top:6px;}.refs-lbl{font-size:9px;font-weight:700;color:#a8a59f;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;}.ref{display:inline-block;font-size:11px;color:#1a4fa0;background:#e8f0fb;border:1px solid #c8dcf8;border-radius:4px;padding:2px 8px;margin:0 3px 3px 0;text-decoration:none;}.ui{border:1px solid #e8e4da;border-radius:8px;padding:10px 12px;margin-bottom:6px;}@media print{body{padding:1rem;}@page{margin:1.5cm;}}';
+var PDFCSS='body{font-family:sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:800px;margin:0 auto;font-size:13px;line-height:1.6;}'
+  +'h1{font-size:20px;font-weight:700;margin-bottom:4px;}.meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}'
+  +'.sum-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid #e8e4da;border-radius:8px;margin-bottom:12px;background:#f2efe8;flex-wrap:wrap;}'
+  +'.verdict{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;}'
+  +'.v-ok{background:#e8f5ec;color:#2d6e3e;border:1px solid #b6dfc3;}.v-warn{background:#fdf3e3;color:#8a5a00;border:1px solid #f0cc88;}.v-err{background:#fdecea;color:#a32020;border:1px solid #f0aaaa;}'
+  +'.sum-txt{flex:1;font-size:13px;color:#3a3830;}.counts{display:flex;gap:5px;}'
+  +'.cp{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;}.cp-e{background:#fdecea;color:#a32020;}.cp-w{background:#fdf3e3;color:#8a5a00;}.cp-o{background:#e8f5ec;color:#2d6e3e;}'
+  +'.issues{display:flex;flex-direction:column;gap:6px;}'
+  +'.icard{border:1px solid #e8e4da;border-radius:10px;overflow:hidden;page-break-inside:avoid;}'
+  +'.icard.e{border-left:3px solid #a32020;}.icard.w{border-left:3px solid #8a5a00;}.icard.o{border-left:3px solid #2d6e3e;}'
+  +'.ihead{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#faf8f4;}'
+  +'.ico{font-size:13px;}.ilbl{font-size:13px;font-weight:500;flex:1;}.itag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;}.arr{display:none!important;}'
+  +'.t-e{background:#fdecea;color:#a32020;}.t-w{background:#fdf3e3;color:#8a5a00;}.t-o{background:#e8f5ec;color:#2d6e3e;}'
+  +'.ibody{display:block!important;padding:10px 14px;background:#f9f7f3;border-top:1px solid #e8e4da;}'
+  +'.dlbl{font-size:9px;font-weight:700;color:#a8a59f;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;margin-top:8px;}'
+  +'.dlbl:first-child{margin-top:0;}'
+  +'.dcode{font-size:11px;background:#0f0e0c;color:#e8e4da;border-radius:5px;padding:6px 10px;line-height:1.7;white-space:pre-wrap;}'
+  +'.dsug{font-size:12px;font-weight:500;padding:6px 10px;border-radius:5px;margin-bottom:6px;}'
+  +'.dsug-e{background:#fdecea;color:#a32020;}.dsug-o{background:#e8f5ec;color:#2d6e3e;}'
+  +'.diff{border:1px solid #e8e4da;border-radius:8px;overflow:hidden;margin:6px 0;}'
+  +'.diff-hd{display:flex;border-bottom:1px solid #e8e4da;}'
+  +'.dh{flex:1;padding:5px 10px;font-size:9px;font-weight:700;text-transform:uppercase;}'
+  +'.dh.del{color:#a32020;background:#fff5f5;}.dh.add{color:#2d6e3e;background:#f4fff6;}'
+  +'.diff-bd{display:flex;}.dc{flex:1;padding:8px 10px;font-size:12px;line-height:1.7;}'
+  +'.dc.del{background:#fffafa;border-right:1px solid #e8e4da;}.dc.add{background:#f6fff8;}'
+  +'mark.del{background:rgba(163,32,32,.15);color:#a32020;text-decoration:line-through;}'
+  +'mark.add{background:rgba(45,110,62,.18);color:#2d6e3e;font-weight:600;}'
+  +'.refs{margin-top:6px;}.refs-lbl{font-size:9px;font-weight:700;color:#a8a59f;text-transform:uppercase;margin-bottom:3px;}'
+  +'.ref{display:inline-block;font-size:11px;color:#1a4fa0;background:#e8f0fb;border:1px solid #c8dcf8;border-radius:4px;padding:2px 8px;margin:0 3px 3px 0;text-decoration:none;}'
+  +'.ui{border:1px solid #e8e4da;border-radius:8px;padding:10px 12px;margin-bottom:6px;}'
+  +'@media print{body{padding:1rem;}@page{margin:1.5cm;}}';
 
 function exportPdf(resultId, title){
-  const el=document.getElementById(resultId);
+  var el=document.getElementById(resultId);
   if(!el||!el.innerHTML.trim())return;
   el.querySelectorAll('.icard').forEach(function(c){c.classList.add('open');});
-  const w=window.open('','_blank');
-  w.document.write('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>'+title+'</title>'+PDF_GF+'<style>'+PDF_CSS+'</style></head><body><h1>📋 '+title+' レポート</h1><div class="meta">FactCheck — 横浜F・マリノス 運用チーム | 実施日：'+TODAY+'</div>'+el.innerHTML+'</body></html>');
+  var w=window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>'+title+'</title><style>'+PDFCSS+'</style></head><body><h1>📋 '+title+' レポート</h1><div class="meta">FactCheck 横浜F・マリノス運用チーム | 実施日：'+TODAY+'</div>'+el.innerHTML+'</body></html>');
   w.document.close();
   setTimeout(function(){w.print();},800);
 }
 
 function exportClPdf(){
-  loadCl(); let total=0,done=0;
-  const gHtml=CL_DATA.map(function(g,gi){
-    const items=g.items.map(function(item,ii){
-      const key=gi+'_'+ii; const chk=!!clState[key]; total++; if(chk)done++;
+  loadCl(); var total=0,done=0;
+  var gHtml=CL_DATA.map(function(g,gi){
+    var items=g.items.map(function(item,ii){
+      var key=gi+'_'+ii; var chk=!!clState[key]; total++; if(chk)done++;
       return '<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:1px solid '+(chk?'#b6dfc3':'#e8e4da')+';border-radius:6px;margin-bottom:4px;background:'+(chk?'#e8f5ec':'#fff')+';">'
-        +'<div style="width:16px;height:16px;border-radius:4px;border:1.5px solid '+(chk?'#2d6e3e':'#e8e4da')+';flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:'+(chk?'#2d6e3e':'transparent')+';color:#fff;">'+(chk?'✓':'')+'</div>'
-        +'<div style="font-size:13px;color:'+(chk?'#6b6860':'#3a3830')+';'+(chk?'text-decoration:line-through;':'')+'">'+clEsc(item)+'</div></div>';
+        +'<div style="width:16px;height:16px;border-radius:4px;border:1.5px solid '+(chk?'#2d6e3e':'#e8e4da')+';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:'+(chk?'#2d6e3e':'transparent')+';color:#fff;">'+(chk?'✓':'')+'</div>'
+        +'<div style="font-size:13px;color:'+(chk?'#6b6860':'#3a3830')+';'+(chk?'text-decoration:line-through;':'')+'">'+clEsc(item)+'</div>'
+        +'</div>';
     }).join('');
     return '<div style="margin-bottom:16px;page-break-inside:avoid;"><div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a8a59f;margin-bottom:6px;">'+clEsc(g.group)+'</div>'+items+'</div>';
   }).join('');
-  const CSS='body{font-family:"Noto Sans JP",sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:700px;margin:0 auto;}h1{font-size:20px;font-weight:700;margin-bottom:4px;}.meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}@media print{body{padding:1rem;}@page{margin:1.5cm;}}';
-  const w=window.open('','_blank');
-  w.document.write('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>公開前チェックリスト</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet"><style>'+CSS+'</style></head><body><h1>✅ 公開前チェックリスト</h1><div class="meta">FactCheck — 横浜F・マリノス 運用チーム | 実施日：'+TODAY+' | 完了：'+done+'/'+total+'</div>'+gHtml+'</body></html>');
+  var CSS='body{font-family:sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:700px;margin:0 auto;}'
+    +'h1{font-size:20px;font-weight:700;margin-bottom:4px;}.meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}'
+    +'@media print{body{padding:1rem;}@page{margin:1.5cm;}}';
+  var w=window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>公開前チェックリスト</title><style>'+CSS+'</style></head><body><h1>✅ 公開前チェックリスト</h1><div class="meta">FactCheck 横浜F・マリノス運用チーム | 実施日：'+TODAY+' | 完了：'+done+'/'+total+'</div>'+gHtml+'</body></html>');
   w.document.close();
   setTimeout(function(){w.print();},800);
 }
+
 </script>
 </body>
 </html>`;
