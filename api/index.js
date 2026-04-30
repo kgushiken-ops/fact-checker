@@ -234,32 +234,6 @@ mark.add{background:rgba(45,110,62,.18);color:var(--ok);border-radius:2px;paddin
 .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px;}
 @keyframes spin{to{transform:rotate(360deg)}}
 footer{text-align:center;padding:1.5rem;font-size:11px;color:var(--ink4);border-top:1px solid var(--paper3);}
-/* PDF出力ボタン */
-.pdf-bar{display:flex;justify-content:flex-end;margin-top:10px;}
-.btn-pdf{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:var(--rlg);border:1.5px solid var(--paper3);background:#fff;color:var(--ink3);font-size:12px;font-family:'Noto Sans JP',sans-serif;font-weight:500;cursor:pointer;transition:all .2s;}
-.btn-pdf:hover{border-color:var(--gold);color:var(--gold);}
-/* チェックリスト */
-.cl-wrap{background:#fff;border:1.5px solid var(--paper3);border-radius:var(--rxl);padding:1.25rem;box-shadow:var(--sh);}
-.cl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;}
-.cl-title{font-size:14px;font-weight:700;}
-.cl-progress{font-size:12px;color:var(--ink4);}
-.cl-prog-bar{height:5px;background:var(--paper3);border-radius:99px;margin-bottom:1rem;overflow:hidden;}
-.cl-prog-fill{height:100%;background:var(--ok);border-radius:99px;transition:width .4s;}
-.cl-groups{display:flex;flex-direction:column;gap:14px;}
-.cl-group-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:6px;}
-.cl-items{display:flex;flex-direction:column;gap:4px;}
-.cl-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:var(--r);border:1px solid var(--paper3);cursor:pointer;transition:all .15s;user-select:none;}
-.cl-item:hover{background:var(--paper2);}
-.cl-item.checked{background:var(--ok-bg);border-color:var(--ok-bd);}
-.cl-item.checked .cl-item-text{color:var(--ink3);text-decoration:line-through;}
-.cl-cb{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--paper3);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;font-size:11px;font-weight:700;transition:all .15s;}
-.cl-item.checked .cl-cb{background:var(--ok);border-color:var(--ok);color:#fff;}
-.cl-item-text{font-size:13px;color:var(--ink2);line-height:1.4;}
-.cl-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--paper3);gap:8px;flex-wrap:wrap;}
-.cl-reset{background:none;border:1px solid var(--paper3);border-radius:var(--r);padding:5px 12px;font-size:12px;color:var(--ink4);cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .15s;}
-.cl-reset:hover{border-color:var(--err);color:var(--err);}
-.cl-status{font-size:12px;font-weight:700;flex:1;text-align:center;}
-.cl-status.done{color:var(--ok);}.cl-status.undone{color:var(--ink4);}
 @media(max-width:560px){.url-row{flex-direction:column;}.tabs{overflow-x:auto;}.tab{white-space:nowrap;}header{padding:0 1rem;}.today-tag{display:none;}.counts{display:none;}}
 </style>
 </head>
@@ -316,9 +290,7 @@ footer{text-align:center;padding:1.5rem;font-size:11px;color:var(--ink4);border-
     </div>
     <button class="btn-check" id="btn-text" onclick="chkText()">AIでチェックする（根拠＋参照リンク付き）</button>
     <div class="result" id="r-text"></div>
-    <div class="pdf-bar" id="pdf-text-bar" style="display:none">
-      <button class="btn-pdf" onclick="exportPdf('r-text','テキスト事実確認')">📄 PDFで出力する</button>
-    </div>
+    <div id="pdf-text-bar" style="display:none;justify-content:flex-end;margin-top:10px;"><button onclick="exportPdf('r-text','テキスト事実確認')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;border:1.5px solid #e8e4da;background:#fff;color:#6b6860;font-size:12px;font-weight:500;cursor:pointer;font-family:Noto Sans JP,sans-serif;">📄 PDFで出力する</button></div>
   </div>
 
   <div class="panel" id="p-url">
@@ -333,9 +305,7 @@ footer{text-align:center;padding:1.5rem;font-size:11px;color:var(--ink4);border-
     </div>
     <button class="btn-check" id="btn-url" onclick="chkUrl()">実アクセスで確認する</button>
     <div class="result" id="r-url"></div>
-    <div class="pdf-bar" id="pdf-url-bar" style="display:none">
-      <button class="btn-pdf" onclick="exportPdf('r-url','URLリンク切れチェック')">📄 PDFで出力する</button>
-    </div>
+    <div id="pdf-url-bar" style="display:none;justify-content:flex-end;margin-top:10px;"><button onclick="exportPdf('r-url','URLリンク切れチェック')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;border:1.5px solid #e8e4da;background:#fff;color:#6b6860;font-size:12px;font-weight:500;cursor:pointer;font-family:Noto Sans JP,sans-serif;">📄 PDFで出力する</button></div>
   </div>
 
   <div class="panel" id="p-data">
@@ -349,24 +319,23 @@ footer{text-align:center;padding:1.5rem;font-size:11px;color:var(--ink4);border-
     </div>
     <button class="btn-check" id="btn-data" onclick="chkData()">AIで整合性チェック（根拠＋参照リンク付き）</button>
     <div class="result" id="r-data"></div>
-    <div class="pdf-bar" id="pdf-data-bar" style="display:none">
-      <button class="btn-pdf" onclick="exportPdf('r-data','数値・データ整合性チェック')">📄 PDFで出力する</button>
-    </div>
+    <div id="pdf-data-bar" style="display:none;justify-content:flex-end;margin-top:10px;"><button onclick="exportPdf('r-data','数値・データ整合性チェック')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;border:1.5px solid #e8e4da;background:#fff;color:#6b6860;font-size:12px;font-weight:500;cursor:pointer;font-family:Noto Sans JP,sans-serif;">📄 PDFで出力する</button></div>
   </div>
 
-  <!-- ✅ チェックリストパネル -->
   <div class="panel" id="p-cl">
-    <div class="cl-wrap">
-      <div class="cl-header">
-        <div class="cl-title">📋 公開前チェックリスト</div>
-        <div class="cl-progress" id="cl-prog-txt">0 / 0 完了</div>
+    <div style="background:#fff;border:1.5px solid #e8e4da;border-radius:20px;padding:1.25rem;box-shadow:0 2px 12px rgba(15,14,12,.08);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;">
+        <div style="font-size:14px;font-weight:700;">📋 公開前チェックリスト</div>
+        <div style="font-size:12px;color:#a8a59f;" id="cl-prog-txt">0 / 0 完了</div>
       </div>
-      <div class="cl-prog-bar"><div class="cl-prog-fill" id="cl-prog-fill" style="width:0%"></div></div>
-      <div class="cl-groups" id="cl-groups"></div>
-      <div class="cl-footer">
-        <button class="cl-reset" onclick="resetCl()">リセット</button>
-        <div class="cl-status undone" id="cl-status">未完了の項目があります</div>
-        <button class="btn-pdf" onclick="exportClPdf()">📄 PDFで出力</button>
+      <div style="height:5px;background:#e8e4da;border-radius:99px;margin-bottom:1rem;overflow:hidden;">
+        <div id="cl-prog-fill" style="height:100%;background:#2d6e3e;border-radius:99px;transition:width .4s;width:0%"></div>
+      </div>
+      <div id="cl-groups"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid #e8e4da;gap:8px;flex-wrap:wrap;">
+        <button onclick="resetCl()" style="background:none;border:1px solid #e8e4da;border-radius:6px;padding:5px 12px;font-size:12px;color:#a8a59f;cursor:pointer;font-family:Noto Sans JP,sans-serif;">リセット</button>
+        <div id="cl-status" style="font-size:12px;font-weight:700;flex:1;text-align:center;color:#a8a59f;">未完了の項目があります</div>
+        <button onclick="exportClPdf()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;border:1.5px solid #e8e4da;background:#fff;color:#6b6860;font-size:12px;font-weight:500;cursor:pointer;font-family:Noto Sans JP,sans-serif;">📄 PDFで出力</button>
       </div>
     </div>
   </div>
@@ -379,478 +348,11 @@ footer{text-align:center;padding:1.5rem;font-size:11px;color:var(--ink4);border-
 const TODAY = '${today}';
 const urls = [];
 
-// ── タブ切り替え（チェックリスト含む）──
 function sw(id) {
   ['text','url','data','cl'].forEach((t,i) => document.querySelectorAll('.tab')[i].classList.toggle('active', t===id));
   ['text','url','data','cl'].forEach(t => document.getElementById('p-'+t).classList.remove('active'));
   document.getElementById('p-'+id).classList.add('active');
 }
-
-function addUrl() {
-  const inp = document.getElementById('t-url'), v = inp.value.trim(); if(!v) return;
-  v.split(/[\n,]/).map(u=>u.trim()).filter(Boolean).forEach(u => { if(!urls.includes(u)) urls.push(u); });
-  inp.value=''; renderChips();
-}
-function renderChips() {
-  document.getElementById('chips').innerHTML = urls.map((u,i) =>
-    \`<div class="chip"><span class="chip-t">\${x(u)}</span><button class="chip-x" onclick="delUrl(\${i})">×</button></div>\`
-  ).join('');
-}
-function delUrl(i) { urls.splice(i,1); renderChips(); }
-
-function loading(id, on, lbl) {
-  const b = document.getElementById(id); b.disabled = on;
-  b.innerHTML = on ? '<span class="spinner"></span>チェック中...' : lbl;
-}
-
-// ── 唯一のAPI呼び出し ──
-async function api(body) {
-  const r = await fetch('/api', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(body)
-  });
-  if (!r.ok) throw new Error('HTTP ' + r.status);
-  return r.json();
-}
-
-async function aiCheck(system, user) {
-  const data = await api({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 1500,
-    system,
-    messages: [{ role:'user', content: user }],
-    tools: [{ type:'web_search_20250305', name:'web_search' }]
-  });
-  return (data.content||[]).map(b => b.type==='text' ? b.text : '').join('');
-}
-
-async function urlCheck(urlList) {
-  return api({ _urlcheck: true, urls: urlList });
-}
-
-// ── 結果レンダリング ──
-function bar(verdict, summary, issues) {
-  const e=(issues||[]).filter(i=>i.s==='e').length;
-  const w=(issues||[]).filter(i=>i.s==='w').length;
-  const o=(issues||[]).filter(i=>i.s==='o').length;
-  const vc = (verdict.includes('問題あり')||verdict.includes('エラー')) ? 'v-err' : verdict.includes('注意')||verdict.includes('確認') ? 'v-warn' : 'v-ok';
-  return \`<div class="sum-bar">
-    <span class="verdict \${vc}">\${x(verdict)}</span>
-    <span class="sum-txt">\${x(summary||'')}</span>
-    <div class="counts">
-      \${e?\`<span class="cp cp-e">🔴 \${e}件</span>\`:''}
-      \${w?\`<span class="cp cp-w">🟡 \${w}件</span>\`:''}
-      \${o?\`<span class="cp cp-o">✅ \${o}件</span>\`:''}
-    </div>
-  </div>\`;
-}
-
-function cards(issues, px) {
-  if (!issues||!issues.length)
-    return '<div style="text-align:center;padding:1.5rem;font-size:14px;color:var(--ok);">✅ 問題は検出されませんでした。</div>';
-  return \`<div class="issues">\${issues.map((it,i) => {
-    const s = it.s||'w';
-    const icon = s==='e'?'🔴':s==='o'?'✅':'🟡';
-    const tcls = s==='e'?'t-e':s==='o'?'t-o':'t-w';
-    const ttxt = s==='e'?'要修正':s==='o'?'問題なし':'要確認';
-    const rcls = s==='e'?'e':s==='o'?'o':'w';
-    const scls = (it.sg||'').includes('不要')||(it.sg||'').includes('問題なし')?'dsug-o':'dsug-e';
-    const diff = (it.ot||it.ft) ? \`<div class="diff">
-      <div class="diff-hd"><div class="dh del">修正前</div><div class="dh add">修正後</div></div>
-      <div class="diff-bd">
-        <div class="dc del">\${hl(it.ot||'', it.ep||'', 'del')}</div>
-        <div class="dc add">\${hl(it.ft||'', it.fp||'', 'add')}</div>
-      </div>
-    </div>\` : '';
-    const refs = (it.refs&&it.refs.length) ? \`<div class="refs"><div class="refs-lbl">参照・確認先</div>\${it.refs.map(r=>\`<a class="ref" href="\${x(r.url)}" target="_blank" rel="noopener">\${x(r.label)}<span class="ref-s"> — \${x(r.source)}</span></a>\`).join('')}</div>\` : '';
-    return \`<div class="icard \${rcls}" id="\${px}\${i}">
-      <div class="ihead" onclick="tog('\${px}\${i}')">
-        <span class="ico">\${icon}</span>
-        <span class="ilbl">\${x(it.p||'')}</span>
-        <span class="itag \${tcls}">\${ttxt}</span>
-        <span class="arr">▼</span>
-      </div>
-      <div class="ibody">
-        <div class="dlbl">根拠・計算</div>
-        <div class="dcode">\${x(it.ev||'')}\${it.cv?\`\\n現在：\${x(String(it.ov||''))} → 正：\${x(String(it.cv||''))}\`:''}</div>
-        <div class="dlbl">修正提案</div>
-        <div class="dsug \${scls}">\${x(it.sg||'')}</div>
-        \${diff}
-        \${refs}
-      </div>
-    </div>\`;
-  }).join('')}</div>\`;
-}
-
-function hl(text, part, cls) {
-  if (!part||!text) return x(text);
-  return x(text).replace(x(part), \`<mark class="\${cls}">\${x(part)}</mark>\`);
-}
-function tog(id) { document.getElementById(id).classList.toggle('open'); }
-function x(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function parse(raw) {
-  try { return JSON.parse(raw.replace(/\`\`\`json|\`\`\`/g,'').trim()); }
-  catch { return null; }
-}
-
-// ════════════════════════════════════════
-// PDF出力機能
-// ════════════════════════════════════════
-function exportPdf(resultId, title) {
-  const el = document.getElementById(resultId);
-  if (!el || !el.innerHTML.trim()) return;
-
-  // すべてのアコーディオンを開く
-  el.querySelectorAll('.icard').forEach(c => c.classList.add('open'));
-
-  const w = window.open('', '_blank');
-  w.document.write(\`<!DOCTYPE html>
-<html lang="ja"><head>
-<meta charset="UTF-8">
-<title>\${x(title)} — FactCheck レポート</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-<style>
-  body{font-family:'Noto Sans JP',sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:800px;margin:0 auto;font-size:13px;line-height:1.6;}
-  h1{font-size:20px;font-weight:700;margin-bottom:4px;}
-  .meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}
-  .sum-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid #e8e4da;border-radius:8px;margin-bottom:12px;background:#f2efe8;}
-  .verdict{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;}
-  .v-ok{background:#e8f5ec;color:#2d6e3e;border:1px solid #b6dfc3;}
-  .v-warn{background:#fdf3e3;color:#8a5a00;border:1px solid #f0cc88;}
-  .v-err{background:#fdecea;color:#a32020;border:1px solid #f0aaaa;}
-  .sum-txt{flex:1;font-size:13px;color:#3a3830;}
-  .counts{display:flex;gap:5px;}
-  .cp{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;}
-  .cp-e{background:#fdecea;color:#a32020;}.cp-w{background:#fdf3e3;color:#8a5a00;}.cp-o{background:#e8f5ec;color:#2d6e3e;}
-  .issues{display:flex;flex-direction:column;gap:8px;}
-  .icard{border:1px solid #e8e4da;border-radius:10px;overflow:hidden;page-break-inside:avoid;}
-  .icard.e{border-left:3px solid #a32020;}.icard.w{border-left:3px solid #8a5a00;}.icard.o{border-left:3px solid #2d6e3e;}
-  .ihead{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#faf8f4;}
-  .ico{font-size:13px;}.ilbl{font-size:13px;font-weight:500;flex:1;}
-  .itag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;}
-  .t-e{background:#fdecea;color:#a32020;}.t-w{background:#fdf3e3;color:#8a5a00;}.t-o{background:#e8f5ec;color:#2d6e3e;}
-  .ibody{padding:10px 14px;background:#f9f7f3;border-top:1px solid #e8e4da;}
-  .dlbl{font-size:9px;font-weight:700;color:#a8a59f;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;margin-top:8px;}
-  .dlbl:first-child{margin-top:0;}
-  .dcode{font-family:'JetBrains Mono',monospace;font-size:11px;background:#0f0e0c;color:#e8e4da;border-radius:5px;padding:6px 10px;line-height:1.7;white-space:pre-wrap;}
-  .dsug{font-size:12px;font-weight:500;padding:6px 10px;border-radius:5px;}
-  .dsug-e{background:#fdecea;color:#a32020;}.dsug-o{background:#e8f5ec;color:#2d6e3e;}
-  .diff{margin-top:6px;border:1px solid #e8e4da;border-radius:8px;overflow:hidden;}
-  .diff-hd{display:flex;border-bottom:1px solid #e8e4da;}
-  .dh{flex:1;padding:5px 10px;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
-  .dh.del{color:#a32020;background:#fff5f5;}.dh.add{color:#2d6e3e;background:#f4fff6;}
-  .diff-bd{display:flex;}
-  .dc{flex:1;padding:8px 10px;font-size:12px;line-height:1.7;}
-  .dc.del{background:#fffafa;border-right:1px solid #e8e4da;}.dc.add{background:#f6fff8;}
-  mark.del{background:rgba(163,32,32,.15);color:#a32020;border-radius:2px;padding:0 2px;text-decoration:line-through;}
-  mark.add{background:rgba(45,110,62,.18);color:#2d6e3e;border-radius:2px;padding:0 2px;font-weight:600;}
-  .refs{margin-top:6px;}
-  .refs-lbl{font-size:9px;font-weight:700;color:#a8a59f;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;}
-  .ref{display:inline-block;font-size:11px;color:#1a4fa0;background:#e8f0fb;border:1px solid #c8dcf8;border-radius:4px;padding:2px 8px;margin:0 3px 3px 0;text-decoration:none;}
-  .ok-msg{text-align:center;padding:1.5rem;font-size:14px;color:#2d6e3e;}
-  .url-item{border:1px solid #e8e4da;border-radius:8px;padding:10px 12px;margin-bottom:6px;page-break-inside:avoid;}
-  .url-addr{font-size:11px;font-family:'JetBrains Mono',monospace;color:#3a3830;word-break:break-all;}
-  .url-rsn{font-size:11px;color:#6b6860;margin-top:2px;}
-  .htag{display:inline;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:5px;}
-  .hok{background:#e8f5ec;color:#2d6e3e;}.hwarn{background:#fdf3e3;color:#8a5a00;}.herr{background:#fdecea;color:#a32020;}
-  .url-det{margin-top:6px;padding-top:6px;border-top:1px solid #f0ede8;font-size:12px;color:#3a3830;}
-  @media print{body{padding:1rem;}@page{margin:1.5cm;}}
-</style>
-</head><body>
-<h1>📋 \${x(title)} レポート</h1>
-<div class="meta">FactCheck — 横浜F・マリノス 運用チーム | 実施日：\${TODAY}</div>
-\${el.innerHTML}
-</body></html>\`);
-  w.document.close();
-  setTimeout(() => { w.print(); }, 800);
-}
-
-// チェックリストPDF出力
-function exportClPdf() {
-  const groups = document.getElementById('cl-groups');
-  const w = window.open('', '_blank');
-  w.document.write(\`<!DOCTYPE html>
-<html lang="ja"><head>
-<meta charset="UTF-8">
-<title>公開前チェックリスト — FactCheck</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  body{font-family:'Noto Sans JP',sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:700px;margin:0 auto;}
-  h1{font-size:20px;font-weight:700;margin-bottom:4px;}
-  .meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}
-  .group{margin-bottom:1.5rem;page-break-inside:avoid;}
-  .gtitle{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a8a59f;margin-bottom:8px;}
-  .item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:1px solid #e8e4da;border-radius:6px;margin-bottom:4px;}
-  .item.checked{background:#e8f5ec;border-color:#b6dfc3;}
-  .cb{width:16px;height:16px;border-radius:4px;border:1.5px solid #e8e4da;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;}
-  .item.checked .cb{background:#2d6e3e;border-color:#2d6e3e;color:#fff;font-size:11px;font-weight:700;}
-  .item-text{font-size:13px;color:#3a3830;line-height:1.4;}
-  .item.checked .item-text{color:#6b6860;text-decoration:line-through;}
-  @media print{body{padding:1rem;}@page{margin:1.5cm;}}
-</style>
-</head><body>
-<h1>✅ 公開前チェックリスト</h1>
-<div class="meta">FactCheck — 横浜F・マリノス 運用チーム | 実施日：\${TODAY}</div>
-\${groups.innerHTML.replace(/cl-group/g,'group').replace(/cl-group-title/g,'gtitle').replace(/cl-items/g,'items').replace(/cl-item/g,'item').replace(/cl-cb/g,'cb').replace(/cl-item-text/g,'item-text')}
-</body></html>\`);
-  w.document.close();
-  setTimeout(() => w.print(), 800);
-}
-
-// ════════════════════════════════════════
-// チェックリスト機能
-// ════════════════════════════════════════
-const CL_DATA = [
-  {
-    group: '📅 日付・曜日',
-    items: [
-      '試合日の曜日が正しい（例：5月2日（土））',
-      '発売日・受注日の曜日が正しい',
-      '受注終了日の曜日が正しい',
-      '年度が2026年になっている（2024・2025年ではない）',
-    ]
-  },
-  {
-    group: '💰 価格・数値',
-    items: [
-      'すべての価格に「（税込）」の記載がある',
-      '価格の数値が正しい（前回と比較済み）',
-      '商品種類数の内訳合計が一致している（例：33+3=36）',
-      'サイズ表の数値に矛盾がない（単調増加しているか）',
-      '割合・パーセントの合計が100%になっている',
-    ]
-  },
-  {
-    group: '📝 テキスト・表記',
-    items: [
-      '選手名の漢字・表記が正しい',
-      '選手の背番号が正しい',
-      '対戦相手チーム名が正しい',
-      '商品名・グッズ名の表記が正しい',
-      '誇張表現・断定表現がない',
-      '注意書き・免責事項の記載がある',
-    ]
-  },
-  {
-    group: '🔗 リンク・URL',
-    items: [
-      '購入ページのURLにアクセスできる',
-      'お問合せフォームのURLが正しい',
-      '記事内リンクが正しいページに飛ぶ',
-      '画像のaltテキストが設定されている',
-    ]
-  },
-  {
-    group: '🗓️ 販売情報',
-    items: [
-      '販売開始日時が正しい',
-      '受注終了日時が正しい',
-      '販売店舗の記載が正しい',
-      '営業時間の記載が正しい',
-      'WEB SHOP限定・会場限定の区別が明記されている',
-      '数量限定の場合その旨が記載されている',
-    ]
-  },
-  {
-    group: '🔍 最終確認',
-    items: [
-      'ステージング環境で表示を確認した',
-      '画像が正しく表示されている',
-      'スマートフォンでの表示を確認した',
-      '担当者・上長の確認を得た',
-    ]
-  }
-];
-
-// チェック状態をlocalStorageで管理
-let clState = {};
-
-function clKey() { return 'factcheck_cl_' + new Date().toDateString(); }
-
-function loadCl() {
-  try { clState = JSON.parse(localStorage.getItem(clKey()) || '{}'); } catch { clState = {}; }
-}
-function saveCl() {
-  try { localStorage.setItem(clKey(), JSON.stringify(clState)); } catch {}
-}
-
-function renderCl() {
-  loadCl();
-  let total = 0, done = 0;
-  const html = CL_DATA.map((g, gi) => {
-    const items = g.items.map((item, ii) => {
-      const key = gi + '_' + ii;
-      const checked = !!clState[key];
-      total++; if(checked) done++;
-      return \`<div class="cl-item \${checked?'checked':''}" onclick="toggleCl('\${key}')">
-        <div class="cl-cb"></div>
-        <div class="cl-item-text">\${x(item)}</div>
-      </div>\`;
-    }).join('');
-    return \`<div class="cl-group">
-      <div class="cl-group-title">\${x(g.group)}</div>
-      <div class="cl-items">\${items}</div>
-    </div>\`;
-  }).join('');
-  document.getElementById('cl-groups').innerHTML = html;
-  const pct = total ? Math.round(done/total*100) : 0;
-  document.getElementById('cl-prog-fill').style.width = pct + '%';
-  document.getElementById('cl-prog-txt').textContent = done + ' / ' + total + ' 完了 (' + pct + '%)';
-  const st = document.getElementById('cl-status');
-  if (done === total) {
-    st.textContent = '✅ すべてのチェック完了！';
-    st.className = 'cl-status done';
-  } else {
-    st.textContent = '未完了の項目があります';
-    st.className = 'cl-status undone';
-  }
-}
-
-function toggleCl(key) {
-  loadCl();
-  clState[key] = !clState[key];
-  saveCl();
-  renderCl();
-}
-
-function resetCl() {
-  if (!confirm('チェックリストをリセットしますか？')) return;
-  clState = {}; saveCl(); renderCl();
-}
-
-// 初期化
-renderCl();
-
-// ════════════════════════════════════════
-// チェック処理
-// ════════════════════════════════════════
-async function go() {
-  const url = document.getElementById('main-url').value.trim(); if(!url) return;
-  const btn = document.getElementById('btn-go');
-  btn.disabled=true; btn.textContent='取得中...';
-  document.getElementById('r-main').innerHTML='';
-  try {
-    const sys = \`あなたはサイト運用の事実確認専門家です。
-重要：今日の日付は\${TODAY}です。
-曜日の判定はweb_searchで確認してから行ってください。AIが独自に計算することを禁止します。
-指摘ごとにot(修正前文),ep(問題部分),ft(修正後文),fp(修正後部分)を付けてください。JSON形式のみ。\`;
-    const prompt = \`URLを調査してチェックしてください：\${url}
-本日：\${TODAY}
-
-JSON形式のみ：
-{"title":"タイトル","verdict":"問題なし|要注意|問題あり","summary":"全体評価2〜3文","issues":[{"s":"e|w|o","p":"指摘内容","ev":"根拠","sg":"修正提案","ot":"修正前の該当一文","ep":"問題部分","ft":"修正後の一文","fp":"修正後部分","refs":[{"label":"ページ名","url":"https://...","source":"運営元"}]}]}\`;
-    const raw = await aiCheck(sys, prompt);
-    const p = parse(raw) || {title:url,verdict:'要注意',summary:raw,issues:[]};
-    document.getElementById('r-main').innerHTML = \`<div style="margin-top:1.25rem;">\${bar(p.verdict,p.summary,p.issues)}\${cards(p.issues,'m')}</div>\`;
-    document.getElementById('pdf-main-bar') && (document.getElementById('pdf-main-bar').style.display = 'flex');
-  } catch(e) {
-    document.getElementById('r-main').innerHTML = \`<div style="margin-top:1rem;padding:14px;background:#fff;border:1px solid var(--paper3);border-radius:var(--rlg);color:var(--err);font-size:14px;">エラー：\${x(e.message)}</div>\`;
-  }
-  btn.disabled=false; btn.textContent='チェック開始';
-}
-
-async function chkText() {
-  const text = document.getElementById('t-text').value.trim(); if(!text) return;
-  const focus = document.getElementById('t-focus').value.trim();
-  const lbl = 'AIでチェックする（根拠＋参照リンク付き）';
-  loading('btn-text',true,lbl);
-  document.getElementById('r-text').innerHTML='';
-  document.getElementById('pdf-text-bar').style.display='none';
-  try {
-    const wdData = await api({ _weekday: true, text });
-    const wdCtx = wdData.context || '';
-    const sys = \`あなたはサイト運用の事実確認専門家です。
-今日の日付：\${TODAY}
-\${wdCtx}
-【最重要】曜日の正誤はAI自身が計算することを禁止します。必ず上記の事前計算結果だけを使ってください。
-指摘ごとにot,ep,ft,fpを付けてください。JSON形式のみ。\`;
-    const prompt = \`チェック観点：\${focus||'曜日・日付の正確性（上記事前計算を参照）、数値の矛盾、選手情報、誇張表現'}
-本日：\${TODAY}
-
-テキスト：
-\${text}
-
-JSON形式のみ：
-{"verdict":"問題なし|要注意|問題あり","summary":"全体評価1〜2文","issues":[{"s":"e|w|o","p":"指摘内容","ev":"根拠","sg":"修正提案","ot":"修正前の該当一文","ep":"問題部分","ft":"修正後の一文","fp":"修正後部分","refs":[{"label":"ページ名","url":"https://...","source":"運営元"}]}]}\`;
-    const raw = await aiCheck(sys, prompt);
-    const p = parse(raw) || {verdict:'要注意',summary:raw,issues:[]};
-    document.getElementById('r-text').innerHTML = bar(p.verdict,p.summary,p.issues) + cards(p.issues,'t');
-    document.getElementById('pdf-text-bar').style.display='flex';
-  } catch(e) {
-    document.getElementById('r-text').innerHTML = \`<div style="padding:14px;background:#fff;border:1px solid var(--paper3);border-radius:var(--rlg);color:var(--err);font-size:14px;">エラー：\${x(e.message)}</div>\`;
-  }
-  loading('btn-text',false,lbl);
-}
-
-async function chkUrl() {
-  if(!urls.length) return;
-  const lbl = '実アクセスで確認する';
-  loading('btn-url',true,lbl);
-  document.getElementById('r-url').innerHTML='';
-  document.getElementById('pdf-url-bar').style.display='none';
-  try {
-    const results = await urlCheck(urls);
-    const e=results.filter(r=>r.st==='e').length, w=results.filter(r=>r.st==='w').length;
-    const vc = e>0?'v-err':w>0?'v-warn':'v-ok';
-    const vt = e>0?'問題あり':w>0?'要注意':'問題なし';
-    const b = \`<div class="sum-bar"><span class="verdict \${vc}">\${vt}</span><span class="sum-txt">\${results.length}件を実アクセスで確認しました</span><div class="counts">\${e?\`<span class="cp cp-e">エラー \${e}件</span>\`:''}\${w?\`<span class="cp cp-w">要注意 \${w}件</span>\`:''}</div></div>\`;
-    const items = results.map(r => {
-      const dc = r.st==='ok'?'dok':r.st==='e'?'derr':'dwarn';
-      const hc = (r.hs>=200&&r.hs<300)?'hok':(r.hs>=300&&r.hs<400)?'hwarn':'herr';
-      return \`<div class="ui">
-        <div class="ui-top">
-          <div class="dot \${dc}"></div>
-          <div>
-            <div class="ui-addr">\${x(r.url)}\${r.hs?\`<span class="htag \${hc}">HTTP \${r.hs}</span>\`:''}</div>
-            <div class="ui-rsn">\${x(r.reason||'')}</div>
-          </div>
-        </div>
-        \${r.detail?\`<div class="ui-det">\${x(r.detail)}</div>\`:''}
-        \${r.redir?\`<div class="ui-det" style="color:var(--warn)">⚠️ リダイレクト先：\${x(r.final||'')}</div>\`:''}
-      </div>\`;
-    }).join('');
-    document.getElementById('r-url').innerHTML = b + \`<div class="issues">\${items}</div>\`;
-    document.getElementById('pdf-url-bar').style.display='flex';
-  } catch(e) {
-    document.getElementById('r-url').innerHTML = \`<div style="padding:14px;background:#fff;border:1px solid var(--paper3);border-radius:var(--rlg);color:var(--err);font-size:14px;">エラー：\${x(e.message)}</div>\`;
-  }
-  loading('btn-url',false,lbl);
-}
-
-async function chkData() {
-  const text = document.getElementById('t-data').value.trim(); if(!text) return;
-  const focus = document.getElementById('d-focus').value.trim();
-  const lbl = 'AIで整合性チェック（根拠＋参照リンク付き）';
-  loading('btn-data',true,lbl);
-  document.getElementById('r-data').innerHTML='';
-  document.getElementById('pdf-data-bar').style.display='none';
-  try {
-    const wdData = await api({ _weekday: true, text });
-    const wdCtx = wdData.context || '';
-    const sys = \`数値・データの整合性チェック専門家です。
-今日の日付：\${TODAY}
-\${wdCtx}
-曜日の判定はAI自身で計算せず、上記の事前計算結果のみを使用してください。
-計算式・正しい値・参照先を必ず示してください。指摘ごとにot,ep,ft,fpを付けてください。JSON形式のみ。\`;
-    const prompt = \`チェック観点：\${focus||'合計値の整合性、割合の正確さ、前後比較の矛盾、単位の一貫性'}
-本日：\${TODAY}
-
-データ：
-\${text}
-
-JSON形式のみ：
-{"verdict":"整合性OK|要確認|整合性エラーあり","summary":"全体評価1〜2文","issues":[{"s":"e|w|o","p":"指摘内容","ev":"計算式","sg":"修正提案","ov":"現在の値","cv":"正しい値","ot":"修正前の該当一文","ep":"問題部分","ft":"修正後の一文","fp":"修正後部分","refs":[{"label":"サイト名","url":"https://...","source":"運営元"}]}]}\`;
-    const raw = await aiCheck(sys, prompt);
-    const p = parse(raw) || {verdict:'要確認',summary:raw,issues:[]};
-    document.getElementById('r-data').innerHTML = bar(p.verdict,p.summary,p.issues) + cards(p.issues,'d');
-    document.getElementById('pdf-data-bar').style.display='flex';
-  } catch(e) {
-    document.getElementById('r-data').innerHTML = \`<div style="padding:14px;background:#fff;border:1px solid var(--paper3);border-radius:var(--rlg);color:var(--err);font-size:14px;">エラー：\${x(e.message)}</div>\`;
-  }
-  loading('btn-data',false,lbl);
-}
-</script>
 
 function addUrl() {
   const inp = document.getElementById('t-url'), v = inp.value.trim(); if(!v) return;
@@ -1017,6 +519,7 @@ JSON形式のみ：
     const raw = await aiCheck(sys, prompt);
     const p = parse(raw) || {verdict:'要注意',summary:raw,issues:[]};
     document.getElementById('r-text').innerHTML = bar(p.verdict,p.summary,p.issues) + cards(p.issues,'t');
+    document.getElementById('pdf-text-bar').style.display='flex';
   } catch(e) {
     document.getElementById('r-text').innerHTML = \`<div style="padding:14px;background:#fff;border:1px solid var(--paper3);border-radius:var(--rlg);color:var(--err);font-size:14px;">エラー：\${x(e.message)}</div>\`;
   }
@@ -1050,7 +553,8 @@ async function chkUrl() {
         \${r.redir?\`<div class="ui-det" style="color:var(--warn)">⚠️ リダイレクト先：\${x(r.final||'')}</div>\`:''}
       </div>\`;
     }).join('');
-    document.getElementById('r-url').innerHTML = b + \`<div class="issues">\${items}</div>\`;
+    document.getElementById('r-url').innerHTML = b + `<div class="issues">${items}</div>`;
+    document.getElementById('pdf-url-bar').style.display='flex';
   } catch(e) {
     document.getElementById('r-url').innerHTML = \`<div style="padding:14px;background:#fff;border:1px solid var(--paper3);border-radius:var(--rlg);color:var(--err);font-size:14px;">エラー：\${x(e.message)}</div>\`;
   }
@@ -1084,10 +588,80 @@ JSON形式のみ：
     const raw = await aiCheck(sys, prompt);
     const p = parse(raw) || {verdict:'要確認',summary:raw,issues:[]};
     document.getElementById('r-data').innerHTML = bar(p.verdict,p.summary,p.issues) + cards(p.issues,'d');
+    document.getElementById('pdf-data-bar').style.display='flex';
   } catch(e) {
     document.getElementById('r-data').innerHTML = \`<div style="padding:14px;background:#fff;border:1px solid var(--paper3);border-radius:var(--rlg);color:var(--err);font-size:14px;">エラー：\${x(e.message)}</div>\`;
   }
   loading('btn-data',false,lbl);
+}
+
+// ════ チェックリスト ════
+const CL_DATA = [
+  { group:'📅 日付・曜日', items:['試合日の曜日が正しい（例：5月2日（土））','発売日・受注日の曜日が正しい','受注終了日の曜日が正しい','年度が正しい（2024・2025年になっていない）'] },
+  { group:'💰 価格・数値', items:['全ての価格に「（税込）」の記載がある','価格の数値が正しい','商品種類数の内訳合計が一致している（例：33+3=36）','サイズ表の数値に矛盾がない','割合・パーセントの合計が100%になっている'] },
+  { group:'📝 テキスト・表記', items:['選手名の漢字・表記が正しい','選手の背番号が正しい','対戦相手チーム名が正しい','商品名・グッズ名の表記が正しい','誇張表現・断定表現がない','注意書き・免責事項の記載がある'] },
+  { group:'🔗 リンク・URL', items:['購入ページのURLにアクセスできる','お問合せフォームのURLが正しい','記事内リンクが正しいページに飛ぶ','画像のaltテキストが設定されている'] },
+  { group:'🗓️ 販売情報', items:['販売開始日時が正しい','受注終了日時が正しい','販売店舗の記載が正しい','営業時間の記載が正しい','WEB SHOP限定・会場限定の区別が明記されている','数量限定の場合その旨が記載されている'] },
+  { group:'🔍 最終確認', items:['ステージング環境で表示を確認した','画像が正しく表示されている','スマートフォンでの表示を確認した','担当者・上長の確認を得た'] }
+];
+let clState = {};
+function clKey(){return 'fc_cl_'+new Date().toDateString();}
+function loadCl(){try{clState=JSON.parse(localStorage.getItem(clKey())||'{}');}catch{clState={};}}
+function saveCl(){try{localStorage.setItem(clKey(),JSON.stringify(clState));}catch{}}
+function clEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function renderCl(){
+  loadCl(); let total=0,done=0;
+  const html=CL_DATA.map(function(g,gi){
+    const items=g.items.map(function(item,ii){
+      const key=gi+'_'+ii; const chk=!!clState[key]; total++; if(chk)done++;
+      return '<div onclick="toggleCl(\''+key+'\')" style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:6px;border:1px solid '+(chk?'#b6dfc3':'#e8e4da')+';cursor:pointer;margin-bottom:4px;background:'+(chk?'#e8f5ec':'#fff')+';user-select:none;">'
+        +'<div style="width:16px;height:16px;border-radius:4px;border:1.5px solid '+(chk?'#2d6e3e':'#e8e4da')+';flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;font-size:11px;font-weight:700;background:'+(chk?'#2d6e3e':'transparent')+';color:#fff;">'+(chk?'✓':'')+'</div>'
+        +'<div style="font-size:13px;color:'+(chk?'#6b6860':'#3a3830')+';line-height:1.4;'+(chk?'text-decoration:line-through;':'')+'">'+clEsc(item)+'</div></div>';
+    }).join('');
+    return '<div style="margin-bottom:14px;"><div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a8a59f;margin-bottom:6px;">'+clEsc(g.group)+'</div>'+items+'</div>';
+  }).join('');
+  document.getElementById('cl-groups').innerHTML=html;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('cl-prog-fill').style.width=pct+'%';
+  document.getElementById('cl-prog-txt').textContent=done+' / '+total+' 完了 ('+pct+'%)';
+  const st=document.getElementById('cl-status');
+  if(done===total){st.textContent='✅ すべてのチェック完了！';st.style.color='#2d6e3e';}
+  else{st.textContent='未完了の項目があります';st.style.color='#a8a59f';}
+}
+function toggleCl(key){loadCl();clState[key]=!clState[key];saveCl();renderCl();}
+function resetCl(){if(!confirm('チェックリストをリセットしますか？'))return;clState={};saveCl();renderCl();}
+renderCl();
+
+// ════ PDF出力 ════
+const PDF_GF='<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">';
+const PDF_CSS='body{font-family:"Noto Sans JP",sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:800px;margin:0 auto;font-size:13px;line-height:1.6;}h1{font-size:20px;font-weight:700;margin-bottom:4px;}.meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}.sum-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid #e8e4da;border-radius:8px;margin-bottom:12px;background:#f2efe8;flex-wrap:wrap;}.verdict{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;}.v-ok{background:#e8f5ec;color:#2d6e3e;border:1px solid #b6dfc3;}.v-warn{background:#fdf3e3;color:#8a5a00;border:1px solid #f0cc88;}.v-err{background:#fdecea;color:#a32020;border:1px solid #f0aaaa;}.sum-txt{flex:1;font-size:13px;color:#3a3830;}.counts{display:flex;gap:5px;}.cp{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;}.cp-e{background:#fdecea;color:#a32020;}.cp-w{background:#fdf3e3;color:#8a5a00;}.cp-o{background:#e8f5ec;color:#2d6e3e;}.issues{display:flex;flex-direction:column;gap:6px;}.icard{border:1px solid #e8e4da;border-radius:10px;overflow:hidden;page-break-inside:avoid;}.icard.e{border-left:3px solid #a32020;}.icard.w{border-left:3px solid #8a5a00;}.icard.o{border-left:3px solid #2d6e3e;}.ihead{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#faf8f4;}.ico{font-size:13px;}.ilbl{font-size:13px;font-weight:500;flex:1;}.itag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;}.arr{display:none!important;}.t-e{background:#fdecea;color:#a32020;}.t-w{background:#fdf3e3;color:#8a5a00;}.t-o{background:#e8f5ec;color:#2d6e3e;}.ibody{display:block!important;padding:10px 14px;background:#f9f7f3;border-top:1px solid #e8e4da;}.dlbl{font-size:9px;font-weight:700;color:#a8a59f;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;margin-top:8px;}.dlbl:first-child{margin-top:0;}.dcode{font-family:"JetBrains Mono",monospace;font-size:11px;background:#0f0e0c;color:#e8e4da;border-radius:5px;padding:6px 10px;line-height:1.7;white-space:pre-wrap;}.dsug{font-size:12px;font-weight:500;padding:6px 10px;border-radius:5px;margin-bottom:6px;}.dsug-e{background:#fdecea;color:#a32020;}.dsug-o{background:#e8f5ec;color:#2d6e3e;}.diff{border:1px solid #e8e4da;border-radius:8px;overflow:hidden;margin:6px 0;}.diff-hd{display:flex;border-bottom:1px solid #e8e4da;}.dh{flex:1;padding:5px 10px;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}.dh.del{color:#a32020;background:#fff5f5;}.dh.add{color:#2d6e3e;background:#f4fff6;}.diff-bd{display:flex;}.dc{flex:1;padding:8px 10px;font-size:12px;line-height:1.7;}.dc.del{background:#fffafa;border-right:1px solid #e8e4da;}.dc.add{background:#f6fff8;}mark.del{background:rgba(163,32,32,.15);color:#a32020;border-radius:2px;padding:0 2px;text-decoration:line-through;}mark.add{background:rgba(45,110,62,.18);color:#2d6e3e;border-radius:2px;padding:0 2px;font-weight:600;}.refs{margin-top:6px;}.refs-lbl{font-size:9px;font-weight:700;color:#a8a59f;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;}.ref{display:inline-block;font-size:11px;color:#1a4fa0;background:#e8f0fb;border:1px solid #c8dcf8;border-radius:4px;padding:2px 8px;margin:0 3px 3px 0;text-decoration:none;}.ui{border:1px solid #e8e4da;border-radius:8px;padding:10px 12px;margin-bottom:6px;}@media print{body{padding:1rem;}@page{margin:1.5cm;}}';
+
+function exportPdf(resultId, title){
+  const el=document.getElementById(resultId);
+  if(!el||!el.innerHTML.trim())return;
+  el.querySelectorAll('.icard').forEach(function(c){c.classList.add('open');});
+  const w=window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>'+title+'</title>'+PDF_GF+'<style>'+PDF_CSS+'</style></head><body><h1>📋 '+title+' レポート</h1><div class="meta">FactCheck — 横浜F・マリノス 運用チーム | 実施日：'+TODAY+'</div>'+el.innerHTML+'</body></html>');
+  w.document.close();
+  setTimeout(function(){w.print();},800);
+}
+
+function exportClPdf(){
+  loadCl(); let total=0,done=0;
+  const gHtml=CL_DATA.map(function(g,gi){
+    const items=g.items.map(function(item,ii){
+      const key=gi+'_'+ii; const chk=!!clState[key]; total++; if(chk)done++;
+      return '<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:1px solid '+(chk?'#b6dfc3':'#e8e4da')+';border-radius:6px;margin-bottom:4px;background:'+(chk?'#e8f5ec':'#fff')+';">'
+        +'<div style="width:16px;height:16px;border-radius:4px;border:1.5px solid '+(chk?'#2d6e3e':'#e8e4da')+';flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:'+(chk?'#2d6e3e':'transparent')+';color:#fff;">'+(chk?'✓':'')+'</div>'
+        +'<div style="font-size:13px;color:'+(chk?'#6b6860':'#3a3830')+';'+(chk?'text-decoration:line-through;':'')+'">'+clEsc(item)+'</div></div>';
+    }).join('');
+    return '<div style="margin-bottom:16px;page-break-inside:avoid;"><div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a8a59f;margin-bottom:6px;">'+clEsc(g.group)+'</div>'+items+'</div>';
+  }).join('');
+  const CSS='body{font-family:"Noto Sans JP",sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:700px;margin:0 auto;}h1{font-size:20px;font-weight:700;margin-bottom:4px;}.meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}@media print{body{padding:1rem;}@page{margin:1.5cm;}}';
+  const w=window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>公開前チェックリスト</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet"><style>'+CSS+'</style></head><body><h1>✅ 公開前チェックリスト</h1><div class="meta">FactCheck — 横浜F・マリノス 運用チーム | 実施日：'+TODAY+' | 完了：'+done+'/'+total+'</div>'+gHtml+'</body></html>');
+  w.document.close();
+  setTimeout(function(){w.print();},800);
 }
 </script>
 </body>
