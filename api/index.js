@@ -63,6 +63,9 @@ async function pingUrl(url) {
 }
 
 // ── HTML ──────────────────────────────────────────────────────
+const EXTRA_JS = "var CL_DATA=[\n  {group:\"\ud83d\udcc5 \u65e5\u4ed8\u30fb\u66dc\u65e5\",items:[\"\u8a66\u5408\u65e5\u306e\u66dc\u65e5\u304c\u6b63\u3057\u3044\uff08\u4f8b\uff1a5\u67082\u65e5\uff08\u571f\uff09\uff09\",\"\u767a\u58f2\u65e5\u30fb\u53d7\u6ce8\u65e5\u306e\u66dc\u65e5\u304c\u6b63\u3057\u3044\",\"\u53d7\u6ce8\u7d42\u4e86\u65e5\u306e\u66dc\u65e5\u304c\u6b63\u3057\u3044\",\"\u5e74\u5ea6\u304c\u6b63\u3057\u3044\uff082024\u30fb2025\u5e74\u306b\u306a\u3063\u3066\u3044\u306a\u3044\uff09\"]},\n  {group:\"\ud83d\udcb0 \u4fa1\u683c\u30fb\u6570\u5024\",items:[\"\u5168\u3066\u306e\u4fa1\u683c\u306b\u300c\uff08\u7a0e\u8fbc\uff09\u300d\u306e\u8a18\u8f09\u304c\u3042\u308b\",\"\u4fa1\u683c\u306e\u6570\u5024\u304c\u6b63\u3057\u3044\",\"\u5546\u54c1\u7a2e\u985e\u6570\u306e\u5185\u8a33\u5408\u8a08\u304c\u4e00\u81f4\u3057\u3066\u3044\u308b\uff08\u4f8b\uff1a33+3=36\uff09\",\"\u30b5\u30a4\u30ba\u8868\u306e\u6570\u5024\u306b\u77db\u76fe\u304c\u306a\u3044\",\"\u5272\u5408\u30fb\u30d1\u30fc\u30bb\u30f3\u30c8\u306e\u5408\u8a08\u304c100%\u306b\u306a\u3063\u3066\u3044\u308b\"]},\n  {group:\"\ud83d\udcdd \u30c6\u30ad\u30b9\u30c8\u30fb\u8868\u8a18\",items:[\"\u9078\u624b\u540d\u306e\u6f22\u5b57\u30fb\u8868\u8a18\u304c\u6b63\u3057\u3044\",\"\u9078\u624b\u306e\u80cc\u756a\u53f7\u304c\u6b63\u3057\u3044\",\"\u5bfe\u6226\u76f8\u624b\u30c1\u30fc\u30e0\u540d\u304c\u6b63\u3057\u3044\",\"\u5546\u54c1\u540d\u30fb\u30b0\u30c3\u30ba\u540d\u306e\u8868\u8a18\u304c\u6b63\u3057\u3044\",\"\u8a87\u5f35\u8868\u73fe\u30fb\u65ad\u5b9a\u8868\u73fe\u304c\u306a\u3044\",\"\u6ce8\u610f\u66f8\u304d\u30fb\u514d\u8cac\u4e8b\u9805\u306e\u8a18\u8f09\u304c\u3042\u308b\"]},\n  {group:\"\ud83d\udd17 \u30ea\u30f3\u30af\u30fbURL\",items:[\"\u8cfc\u5165\u30da\u30fc\u30b8\u306eURL\u306b\u30a2\u30af\u30bb\u30b9\u3067\u304d\u308b\",\"\u304a\u554f\u5408\u305b\u30d5\u30a9\u30fc\u30e0\u306eURL\u304c\u6b63\u3057\u3044\",\"\u8a18\u4e8b\u5185\u30ea\u30f3\u30af\u304c\u6b63\u3057\u3044\u30da\u30fc\u30b8\u306b\u98db\u3076\",\"\u753b\u50cf\u306ealt\u30c6\u30ad\u30b9\u30c8\u304c\u8a2d\u5b9a\u3055\u308c\u3066\u3044\u308b\"]},\n  {group:\"\ud83d\uddd3\ufe0f \u8ca9\u58f2\u60c5\u5831\",items:[\"\u8ca9\u58f2\u958b\u59cb\u65e5\u6642\u304c\u6b63\u3057\u3044\",\"\u53d7\u6ce8\u7d42\u4e86\u65e5\u6642\u304c\u6b63\u3057\u3044\",\"\u8ca9\u58f2\u5e97\u8217\u306e\u8a18\u8f09\u304c\u6b63\u3057\u3044\",\"\u55b6\u696d\u6642\u9593\u306e\u8a18\u8f09\u304c\u6b63\u3057\u3044\",\"WEB SHOP\u9650\u5b9a\u30fb\u4f1a\u5834\u9650\u5b9a\u306e\u533a\u5225\u304c\u660e\u8a18\u3055\u308c\u3066\u3044\u308b\",\"\u6570\u91cf\u9650\u5b9a\u306e\u5834\u5408\u305d\u306e\u65e8\u304c\u8a18\u8f09\u3055\u308c\u3066\u3044\u308b\"]},\n  {group:\"\ud83d\udd0d \u6700\u7d42\u78ba\u8a8d\",items:[\"\u30b9\u30c6\u30fc\u30b8\u30f3\u30b0\u74b0\u5883\u3067\u8868\u793a\u3092\u78ba\u8a8d\u3057\u305f\",\"\u753b\u50cf\u304c\u6b63\u3057\u304f\u8868\u793a\u3055\u308c\u3066\u3044\u308b\",\"\u30b9\u30de\u30fc\u30c8\u30d5\u30a9\u30f3\u3067\u306e\u8868\u793a\u3092\u78ba\u8a8d\u3057\u305f\",\"\u62c5\u5f53\u8005\u30fb\u4e0a\u9577\u306e\u78ba\u8a8d\u3092\u5f97\u305f\"]}\n];\nvar clState={};\nfunction clKey(){return 'fc_cl_'+new Date().toDateString();}\nfunction loadCl(){try{clState=JSON.parse(localStorage.getItem(clKey())||'{}');}catch(e){clState={};}}\nfunction saveCl(){try{localStorage.setItem(clKey(),JSON.stringify(clState));}catch(e){}}\nfunction clEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}\nfunction renderCl(){\n  loadCl();var total=0,done=0;\n  var html=CL_DATA.map(function(g,gi){\n    var items=g.items.map(function(item,ii){\n      var key=gi+'_'+ii,chk=!!clState[key];total++;if(chk)done++;\n      var bg=chk?'#e8f5ec':'#fff',bd=chk?'#b6dfc3':'#e8e4da';\n      var cbBg=chk?'#2d6e3e':'transparent',cbBd=chk?'#2d6e3e':'#e8e4da';\n      var tc=chk?'#6b6860':'#3a3830',td=chk?'text-decoration:line-through;':'';\n      var d=document.createElement(\"div\");\n      d.setAttribute(\"onclick\",\"toggleCl('\"+key+\"')\");\n      d.setAttribute(\"style\",\"display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:6px;border:1px solid \"+bd+\";cursor:pointer;margin-bottom:4px;background:\"+bg+\";user-select:none;\");\n      var cb=document.createElement(\"div\");\n      cb.setAttribute(\"style\",\"width:16px;height:16px;border-radius:4px;border:1.5px solid \"+cbBd+\";flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;font-size:11px;font-weight:700;background:\"+cbBg+\";color:#fff;\");\n      cb.textContent=chk?\"\u2713\":\"\";\n      var tx=document.createElement(\"div\");\n      tx.setAttribute(\"style\",\"font-size:13px;color:\"+tc+\";line-height:1.4;\"+td);\n      tx.textContent=item;\n      d.appendChild(cb);d.appendChild(tx);\n      return d.outerHTML;\n    }).join('');\n    return '<div style=\"margin-bottom:14px;\"><div style=\"font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a8a59f;margin-bottom:6px;\">'+clEsc(g.group)+'</div>'+items+'</div>';\n  }).join('');\n  document.getElementById('cl-groups').innerHTML=html;\n  var pct=total?Math.round(done/total*100):0;\n  document.getElementById('cl-prog-fill').style.width=pct+'%';\n  document.getElementById('cl-prog-txt').textContent=done+' / '+total+' \u5b8c\u4e86 ('+pct+'%)';\n  var st=document.getElementById('cl-status');\n  if(done===total){st.textContent='\u2705 \u3059\u3079\u3066\u306e\u30c1\u30a7\u30c3\u30af\u5b8c\u4e86\uff01';st.style.color='#2d6e3e';}\n  else{st.textContent='\u672a\u5b8c\u4e86\u306e\u9805\u76ee\u304c\u3042\u308a\u307e\u3059';st.style.color='#a8a59f';}\n}\nfunction toggleCl(key){loadCl();clState[key]=!clState[key];saveCl();renderCl();}\nfunction resetCl(){if(!confirm('\u30c1\u30a7\u30c3\u30af\u30ea\u30b9\u30c8\u3092\u30ea\u30bb\u30c3\u30c8\u3057\u307e\u3059\u304b\uff1f'))return;clState={};saveCl();renderCl();}\nrenderCl();\nfunction exportPdf(resultId,title){\n  var el=document.getElementById(resultId);\n  if(!el||!el.innerHTML.trim())return;\n  el.querySelectorAll('.icard').forEach(function(c){c.classList.add('open');});\n  var w=window.open('','_blank');\n  var css='body{font-family:sans-serif;padding:2rem;max-width:800px;margin:0 auto;font-size:13px;line-height:1.6;}h1{font-size:20px;font-weight:700;margin-bottom:4px;}.meta{font-size:11px;color:#666;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #111;}.icard{border:1px solid #ddd;border-radius:10px;overflow:hidden;page-break-inside:avoid;margin-bottom:6px;}.icard.e{border-left:3px solid #a32020;}.icard.w{border-left:3px solid #8a5a00;}.icard.o{border-left:3px solid #2d6e3e;}.ihead{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#faf8f4;}.ilbl{font-size:13px;font-weight:500;flex:1;}.arr{display:none!important;}.ibody{display:block!important;padding:10px 14px;background:#f9f7f3;border-top:1px solid #eee;}.dlbl{font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:3px;margin-top:8px;}.dlbl:first-child{margin-top:0;}.dcode{font-size:11px;background:#111;color:#e8e4da;border-radius:5px;padding:6px 10px;line-height:1.7;white-space:pre-wrap;}.dsug{font-size:12px;font-weight:500;padding:6px 10px;border-radius:5px;}.dsug-e{background:#fdecea;color:#a32020;}.dsug-o{background:#e8f5ec;color:#2d6e3e;}.sum-bar{display:flex;gap:8px;padding:10px 14px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;background:#f5f4f0;flex-wrap:wrap;}.verdict{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;}.v-ok{background:#e8f5ec;color:#2d6e3e;}.v-warn{background:#fdf3e3;color:#8a5a00;}.v-err{background:#fdecea;color:#a32020;}.sum-txt{flex:1;font-size:13px;}.diff{border:1px solid #ddd;border-radius:8px;overflow:hidden;margin:6px 0;}.diff-hd{display:flex;border-bottom:1px solid #ddd;}.dh{flex:1;padding:5px 10px;font-size:9px;font-weight:700;text-transform:uppercase;}.dh.del{color:#a32020;background:#fff5f5;}.dh.add{color:#2d6e3e;background:#f4fff6;}.diff-bd{display:flex;}.dc{flex:1;padding:8px 10px;font-size:12px;}.dc.del{background:#fffafa;border-right:1px solid #ddd;}.dc.add{background:#f6fff8;}.refs{margin-top:6px;}.ref{display:inline-block;font-size:11px;color:#1a4fa0;background:#e8f0fb;border:1px solid #c8dcf8;border-radius:4px;padding:2px 8px;margin:0 3px 3px 0;text-decoration:none;}@media print{body{padding:1rem;}@page{margin:1.5cm;}}';\n  w.document.write('<!DOCTYPE html><html lang=\"ja\"><head><meta charset=\"UTF-8\"><title>'+title+'</title><style>'+css+'</style></head><body><h1>'+title+' \u30ec\u30dd\u30fc\u30c8</h1><div class=\"meta\">FactCheck | \u5b9f\u65bd\u65e5\uff1a'+TODAY+'</div>'+el.innerHTML+'</body></html>');\n  w.document.close();\n  setTimeout(function(){w.print();},800);\n}\nfunction exportClPdf(){\n  loadCl();var total=0,done=0;\n  var gHtml=CL_DATA.map(function(g,gi){\n    var items=g.items.map(function(item,ii){\n      var key=gi+'_'+ii,chk=!!clState[key];total++;if(chk)done++;\n      var d=document.createElement('div');\n      d.style.cssText='display:flex;gap:10px;padding:8px 10px;border:1px solid '+(chk?'#b6dfc3':'#ddd')+';border-radius:6px;margin-bottom:4px;background:'+(chk?'#e8f5ec':'#fff')+';';\n      var cb=document.createElement('div');\n      cb.style.cssText='width:16px;height:16px;border-radius:4px;border:1.5px solid '+(chk?'#2d6e3e':'#ddd')+';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:'+(chk?'#2d6e3e':'transparent')+';color:#fff;flex-shrink:0;';\n      cb.textContent=chk?'\u2713':'';\n      var tx=document.createElement('div');\n      tx.style.cssText='font-size:13px;color:'+(chk?'#6b6860':'#333')+';'+(chk?'text-decoration:line-through;':'');\n      tx.textContent=item;\n      d.appendChild(cb);d.appendChild(tx);\n      return d.outerHTML;\n    }).join('');\n    var g2=document.createElement('div');g2.style.cssText='margin-bottom:16px;page-break-inside:avoid;';\n    var gt=document.createElement('div');gt.style.cssText='font-size:10px;font-weight:700;text-transform:uppercase;color:#aaa;margin-bottom:6px;';\n    gt.textContent=g.group;g2.innerHTML=gt.outerHTML+items;\n    return g2.outerHTML;\n  }).join('');\n  var css='body{font-family:sans-serif;padding:2rem;max-width:700px;margin:0 auto;}h1{font-size:20px;font-weight:700;margin-bottom:4px;}.meta{font-size:11px;color:#666;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #111;}@media print{body{padding:1rem;}@page{margin:1.5cm;}}';\n  var w=window.open('','_blank');\n  w.document.write('<!DOCTYPE html><html lang=\"ja\"><head><meta charset=\"UTF-8\"><title>\u516c\u958b\u524d\u30c1\u30a7\u30c3\u30af\u30ea\u30b9\u30c8</title><style>'+css+'</style></head><body><h1>\u516c\u958b\u524d\u30c1\u30a7\u30c3\u30af\u30ea\u30b9\u30c8</h1><div class=\"meta\">FactCheck | \u5b9f\u65bd\u65e5\uff1a'+TODAY+' | \u5b8c\u4e86\uff1a'+done+'/'+total+'</div>'+gHtml+'</body></html>');\n  w.document.close();\n  setTimeout(function(){w.print();},800);\n}";
+
+
 function buildHtml(today) {
   return `<!DOCTYPE html>
 <html lang="ja">
@@ -473,12 +476,21 @@ async function go() {
   btn.disabled=true; btn.textContent='取得中...';
   document.getElementById('r-main').innerHTML='';
   try {
+    // まずページのURLをテキストとして渡し、サーバー側で曜日を事前計算
+    const wdData = await api({ _weekday: true, text: url });
+    const wdCtx = wdData.context || '';
+
     const sys = \`あなたはサイト運用の事実確認専門家です。
-重要：今日の日付は\${TODAY}です。
-曜日の判定はweb_searchで確認してから行ってください。AIが独自に計算することを禁止します。
+今日の日付：\${TODAY}
+\${wdCtx}
+【最重要】曜日の正誤はAI自身が計算・推測することを絶対に禁止します。
+上記「曜日の事前計算結果」に記載のある日付はその値のみを正として判定してください。
+記載のない日付については、曜日の正誤を指摘しないでください（web_searchでも確認不要）。
 指摘ごとにot(修正前文),ep(問題部分),ft(修正後文),fp(修正後部分)を付けてください。JSON形式のみ。\`;
     const prompt = \`URLを調査してチェックしてください：\${url}
 本日：\${TODAY}
+
+【重要】ページ内の日付の曜日については、上記「曜日の事前計算結果」にある日付のみ判定可能です。それ以外の日付の曜日を指摘しないでください。
 
 JSON形式のみ（他のテキスト不要）:
 {"title":"タイトル","verdict":"問題なし|要注意|問題あり","summary":"全体評価2〜3文","issues":[{"s":"e|w|o","p":"指摘内容","ev":"根拠","sg":"修正提案","ot":"修正前の該当一文","ep":"問題部分","ft":"修正後の一文","fp":"修正後部分","refs":[{"label":"ページ名","url":"https://...","source":"運営元"}]}]}\`;
@@ -593,155 +605,7 @@ JSON形式のみ：
   }
   loading('btn-data',false,lbl);
 }
-// ════ チェックリスト ════
-var CL_DATA = [
-  { group:'📅 日付・曜日', items:['試合日の曜日が正しい（例：5月2日（土））','発売日・受注日の曜日が正しい','受注終了日の曜日が正しい','年度が正しい（2024・2025年になっていない）'] },
-  { group:'💰 価格・数値', items:['全ての価格に「（税込）」の記載がある','価格の数値が正しい','商品種類数の内訳合計が一致している（例：33+3=36）','サイズ表の数値に矛盾がない','割合・パーセントの合計が100%になっている'] },
-  { group:'📝 テキスト・表記', items:['選手名の漢字・表記が正しい','選手の背番号が正しい','対戦相手チーム名が正しい','商品名・グッズ名の表記が正しい','誇張表現・断定表現がない','注意書き・免責事項の記載がある'] },
-  { group:'🔗 リンク・URL', items:['購入ページのURLにアクセスできる','お問合せフォームのURLが正しい','記事内リンクが正しいページに飛ぶ','画像のaltテキストが設定されている'] },
-  { group:'🗓️ 販売情報', items:['販売開始日時が正しい','受注終了日時が正しい','販売店舗の記載が正しい','営業時間の記載が正しい','WEB SHOP限定・会場限定の区別が明記されている','数量限定の場合その旨が記載されている'] },
-  { group:'🔍 最終確認', items:['ステージング環境で表示を確認した','画像が正しく表示されている','スマートフォンでの表示を確認した','担当者・上長の確認を得た'] }
-];
-var clState = {};
-function clKey(){return 'fc_cl_'+new Date().toDateString();}
-function loadCl(){try{clState=JSON.parse(localStorage.getItem(clKey())||'{}');}catch(e){clState={};}}
-function saveCl(){try{localStorage.setItem(clKey(),JSON.stringify(clState));}catch(e){}}
-function clEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-function renderCl(){
-  loadCl();
-  var total=0, done=0;
-  var html = '';
-  for(var gi=0; gi<CL_DATA.length; gi++){
-    var g = CL_DATA[gi];
-    var itemsHtml = '';
-    for(var ii=0; ii<g.items.length; ii++){
-      var key = gi+'_'+ii;
-      var chk = !!clState[key];
-      total++; if(chk) done++;
-      var bg   = chk ? '#e8f5ec' : '#fff';
-      var bd   = chk ? '#b6dfc3' : '#e8e4da';
-      var cbBg = chk ? '#2d6e3e' : 'transparent';
-      var cbBd = chk ? '#2d6e3e' : '#e8e4da';
-      var tc   = chk ? '#6b6860' : '#3a3830';
-      var td   = chk ? 'text-decoration:line-through;' : '';
-      var cbTxt = chk ? '&#10003;' : '';
-      itemsHtml += '<div data-clkey="' + key + '" style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:6px;border:1px solid ' + bd + ';cursor:pointer;margin-bottom:4px;background:' + bg + ';user-select:none;">'
-        + '<div style="width:16px;height:16px;border-radius:4px;border:1.5px solid ' + cbBd + ';flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;font-size:11px;font-weight:700;background:' + cbBg + ';color:#fff;">' + cbTxt + '</div>'
-        + '<div style="font-size:13px;color:' + tc + ';line-height:1.4;' + td + '">' + clEsc(g.items[ii]) + '</div>'
-        + '</div>';
-    }
-    html += '<div style="margin-bottom:14px;">'
-      + '<div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a8a59f;margin-bottom:6px;">' + clEsc(g.group) + '</div>'
-      + itemsHtml + '</div>';
-  }
-  var el = document.getElementById('cl-groups');
-  if(!el) return;
-  el.innerHTML = html;
-  // data属性でイベント委譲
-  el.onclick = function(e){
-    var row = e.target.closest('[data-clkey]');
-    if(row){ toggleCl(row.getAttribute('data-clkey')); }
-  };
-  var pct = total ? Math.round(done/total*100) : 0;
-  document.getElementById('cl-prog-fill').style.width = pct + '%';
-  document.getElementById('cl-prog-txt').textContent = done + ' / ' + total + ' 完了 (' + pct + '%)';
-  var st = document.getElementById('cl-status');
-  if(done === total){ st.textContent = '✅ すべてのチェック完了！'; st.style.color = '#2d6e3e'; }
-  else{ st.textContent = '未完了の項目があります'; st.style.color = '#a8a59f'; }
-}
-function toggleCl(key){ loadCl(); clState[key]=!clState[key]; saveCl(); renderCl(); }
-function resetCl(){ if(!confirm('チェックリストをリセットしますか？')) return; clState={}; saveCl(); renderCl(); }
-renderCl();
-
-// ════ PDF出力 ════
-var PDFCSS = [
-  'body{font-family:sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:800px;margin:0 auto;font-size:13px;line-height:1.6;}',
-  'h1{font-size:20px;font-weight:700;margin-bottom:4px;}',
-  '.meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}',
-  '.sum-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid #e8e4da;border-radius:8px;margin-bottom:12px;background:#f2efe8;flex-wrap:wrap;}',
-  '.verdict{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;}',
-  '.v-ok{background:#e8f5ec;color:#2d6e3e;border:1px solid #b6dfc3;}',
-  '.v-warn{background:#fdf3e3;color:#8a5a00;border:1px solid #f0cc88;}',
-  '.v-err{background:#fdecea;color:#a32020;border:1px solid #f0aaaa;}',
-  '.sum-txt{flex:1;font-size:13px;color:#3a3830;}.counts{display:flex;gap:5px;}',
-  '.cp{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;}',
-  '.cp-e{background:#fdecea;color:#a32020;}.cp-w{background:#fdf3e3;color:#8a5a00;}.cp-o{background:#e8f5ec;color:#2d6e3e;}',
-  '.issues{display:flex;flex-direction:column;gap:6px;}',
-  '.icard{border:1px solid #e8e4da;border-radius:10px;overflow:hidden;page-break-inside:avoid;}',
-  '.icard.e{border-left:3px solid #a32020;}.icard.w{border-left:3px solid #8a5a00;}.icard.o{border-left:3px solid #2d6e3e;}',
-  '.ihead{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#faf8f4;}',
-  '.ico{font-size:13px;}.ilbl{font-size:13px;font-weight:500;flex:1;}',
-  '.itag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;}.arr{display:none!important;}',
-  '.t-e{background:#fdecea;color:#a32020;}.t-w{background:#fdf3e3;color:#8a5a00;}.t-o{background:#e8f5ec;color:#2d6e3e;}',
-  '.ibody{display:block!important;padding:10px 14px;background:#f9f7f3;border-top:1px solid #e8e4da;}',
-  '.dlbl{font-size:9px;font-weight:700;color:#a8a59f;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;margin-top:8px;}',
-  '.dlbl:first-child{margin-top:0;}',
-  '.dcode{font-size:11px;background:#0f0e0c;color:#e8e4da;border-radius:5px;padding:6px 10px;line-height:1.7;white-space:pre-wrap;}',
-  '.dsug{font-size:12px;font-weight:500;padding:6px 10px;border-radius:5px;margin-bottom:6px;}',
-  '.dsug-e{background:#fdecea;color:#a32020;}.dsug-o{background:#e8f5ec;color:#2d6e3e;}',
-  '.diff{border:1px solid #e8e4da;border-radius:8px;overflow:hidden;margin:6px 0;}',
-  '.diff-hd{display:flex;border-bottom:1px solid #e8e4da;}',
-  '.dh{flex:1;padding:5px 10px;font-size:9px;font-weight:700;text-transform:uppercase;}',
-  '.dh.del{color:#a32020;background:#fff5f5;}.dh.add{color:#2d6e3e;background:#f4fff6;}',
-  '.diff-bd{display:flex;}.dc{flex:1;padding:8px 10px;font-size:12px;line-height:1.7;}',
-  '.dc.del{background:#fffafa;border-right:1px solid #e8e4da;}.dc.add{background:#f6fff8;}',
-  'mark.del{background:rgba(163,32,32,.15);color:#a32020;text-decoration:line-through;}',
-  'mark.add{background:rgba(45,110,62,.18);color:#2d6e3e;font-weight:600;}',
-  '.refs{margin-top:6px;}.refs-lbl{font-size:9px;font-weight:700;color:#a8a59f;text-transform:uppercase;margin-bottom:3px;}',
-  '.ref{display:inline-block;font-size:11px;color:#1a4fa0;background:#e8f0fb;border:1px solid #c8dcf8;border-radius:4px;padding:2px 8px;margin:0 3px 3px 0;text-decoration:none;}',
-  '.ui{border:1px solid #e8e4da;border-radius:8px;padding:10px 12px;margin-bottom:6px;}',
-  '@media print{body{padding:1rem;}@page{margin:1.5cm;}}'
-].join('');
-
-function exportPdf(resultId, title){
-  var el = document.getElementById(resultId);
-  if(!el || !el.innerHTML.trim()) return;
-  el.querySelectorAll('.icard').forEach(function(c){ c.classList.add('open'); });
-  var w = window.open('', '_blank');
-  var html = '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>' + title + '</title>'
-    + '<style>' + PDFCSS + '</style></head><body>'
-    + '<h1>📋 ' + title + ' レポート</h1>'
-    + '<div class="meta">FactCheck 横浜F・マリノス運用チーム | 実施日：' + TODAY + '</div>'
-    + el.innerHTML + '</body></html>';
-  w.document.write(html);
-  w.document.close();
-  setTimeout(function(){ w.print(); }, 800);
-}
-
-function exportClPdf(){
-  loadCl();
-  var total=0, done=0, gHtml='';
-  for(var gi=0; gi<CL_DATA.length; gi++){
-    var g = CL_DATA[gi];
-    var itemsHtml = '';
-    for(var ii=0; ii<g.items.length; ii++){
-      var key = gi+'_'+ii;
-      var chk = !!clState[key]; total++; if(chk) done++;
-      itemsHtml += '<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:1px solid '+(chk?'#b6dfc3':'#e8e4da')+';border-radius:6px;margin-bottom:4px;background:'+(chk?'#e8f5ec':'#fff')+'">'
-        + '<div style="width:16px;height:16px;border-radius:4px;border:1.5px solid '+(chk?'#2d6e3e':'#e8e4da')+';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:'+(chk?'#2d6e3e':'transparent')+';color:#fff;">'+(chk?'&#10003;':'')+'</div>'
-        + '<div style="font-size:13px;color:'+(chk?'#6b6860':'#3a3830')+';'+(chk?'text-decoration:line-through;':'')+'">'+clEsc(g.items[ii])+'</div>'
-        + '</div>';
-    }
-    gHtml += '<div style="margin-bottom:16px;page-break-inside:avoid;">'
-      + '<div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a8a59f;margin-bottom:6px;">' + clEsc(g.group) + '</div>'
-      + itemsHtml + '</div>';
-  }
-  var CSS = 'body{font-family:sans-serif;background:#fff;color:#0f0e0c;padding:2rem;max-width:700px;margin:0 auto;}'
-    + 'h1{font-size:20px;font-weight:700;margin-bottom:4px;}'
-    + '.meta{font-size:11px;color:#6b6860;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0f0e0c;}'
-    + '@media print{body{padding:1rem;}@page{margin:1.5cm;}}';
-  var w = window.open('', '_blank');
-  var html = '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>公開前チェックリスト</title>'
-    + '<style>' + CSS + '</style></head><body>'
-    + '<h1>✅ 公開前チェックリスト</h1>'
-    + '<div class="meta">FactCheck 横浜F・マリノス運用チーム | 実施日：' + TODAY + ' | 完了：' + done + '/' + total + '</div>'
-    + gHtml + '</body></html>';
-  w.document.write(html);
-  w.document.close();
-  setTimeout(function(){ w.print(); }, 800);
-}
-
+${EXTRA_JS}
 </script>
 </body>
 </html>`;
@@ -762,9 +626,24 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const body = req.body || {};
 
-    // 1) 曜日の事前計算
+    // 1) 曜日の事前計算（テキストまたはURLから）
     if (body._weekday) {
-      const context = buildDateContext(body.text || '');
+      let text = body.text || '';
+      // URLが渡された場合はページを取得してテキストを抽出
+      if (text.startsWith('http')) {
+        try {
+          const pageRes = await fetch(text, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (compatible; FactChecker/1.0)' },
+            signal: AbortSignal.timeout(8000)
+          });
+          text = await pageRes.text();
+          // HTMLタグを除去してテキストのみ抽出
+          text = text.replace(/<[^>]+>/g, ' ');
+        } catch(e) {
+          text = '';
+        }
+      }
+      const context = buildDateContext(text);
       return res.status(200).json({ context });
     }
 
