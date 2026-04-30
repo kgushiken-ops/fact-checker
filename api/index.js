@@ -553,7 +553,7 @@ async function chkUrl() {
         \${r.redir?\`<div class="ui-det" style="color:var(--warn)">⚠️ リダイレクト先：\${x(r.final||'')}</div>\`:''}
       </div>\`;
     }).join('');
-    document.getElementById('r-url').innerHTML = b + `<div class="issues">${items}</div>`;
+    document.getElementById('r-url').innerHTML = b + \`<div class="issues">\${items}</div>\`;
     document.getElementById('pdf-url-bar').style.display='flex';
   } catch(e) {
     document.getElementById('r-url').innerHTML = \`<div style="padding:14px;background:#fff;border:1px solid var(--paper3);border-radius:var(--rlg);color:var(--err);font-size:14px;">エラー：\${x(e.message)}</div>\`;
